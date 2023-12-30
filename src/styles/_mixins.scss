@@ -1,0 +1,31 @@
+@mixin price-filter-label {
+  // color: #fff;
+  text-align: center;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 166.667%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+@mixin transfer-filter-title {
+  color: #4a4a4a;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+@mixin transfer-filter-label {
+  color: #4a4a4a;
+  font-family: Open Sans;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 153.846%;
+}

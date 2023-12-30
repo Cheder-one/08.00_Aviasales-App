@@ -1,0 +1,12 @@
+@import '../../../../styles/mixins';
+
+.price_filter {
+  .filter {
+    @include price-filter-label;
+
+    width: 168px;
+    height: 50px;
+    padding: 15px;
+    flex-shrink: 0;
+  }
+}

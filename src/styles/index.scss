@@ -1,2 +1,7 @@
+@use './variables';
+@use './fonts';
+@use './reset';
+@use './mixins';
+
 @import 'normalize.css';
-@import 'reset';
+// @import 'antd/dist/reset.css';

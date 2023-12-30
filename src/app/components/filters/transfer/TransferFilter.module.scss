@@ -1,4 +1,22 @@
-.check {
-  margin: 10px;
-  user-select: none;
+@import '../../../../styles/mixins';
+
+.transfer_filter {
+  .title {
+    display: flex;
+    padding-bottom: 20px;
+    @include transfer-filter-title;
+  }
+
+  .checkbox_group {
+    display: flex;
+    flex-direction: column;
+
+    .checkbox {
+      &:not(:last-child) {
+        padding-bottom: 20px;
+      }
+
+      @include transfer-filter-label;
+    }
+  }
 }

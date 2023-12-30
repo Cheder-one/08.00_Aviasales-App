@@ -59,11 +59,10 @@ module.exports = {
         varsIgnorePattern: 'jsx',
       },
     ],
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: true },
-      { dependencies: true },
-    ],
+    // 'import/no-extraneous-dependencies': [
+    //   'error',
+    //   { devDependencies: true },
+    // ],
     'import/no-cycle': 'off',
     // '@emotion/jsx-import': 'error',
     '@emotion/import-from-emotion': 'error',
