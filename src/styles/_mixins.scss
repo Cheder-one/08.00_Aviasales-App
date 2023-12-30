@@ -58,3 +58,15 @@
   font-weight: 600;
   line-height: 150%;
 }
+
+@mixin ticket-more-btn {
+  color: $Primary-Colors-White;
+  text-align: center;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 166.667%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}

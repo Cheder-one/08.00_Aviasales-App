@@ -1,5 +1,11 @@
 @import '@/styles';
 
+.ticket_list {
+  > * {
+    margin-bottom: 20px;
+  }
+}
+
 .ticket {
   filter: $ticket-card-filter-shadow;
 
@@ -8,10 +14,12 @@
   }
 
   .row_title {
-    padding-bottom: 20px;
+    padding: 20px;
   }
 
   .row_table {
+    padding-left: 20px;
+
     &:not(:last-child) {
       padding-bottom: 10px;
     }

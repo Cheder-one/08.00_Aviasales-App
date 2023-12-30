@@ -1,16 +1,16 @@
 import { Card } from 'antd';
 import styled from '@emotion/styled';
 
-const ModifiedCard = styled(Card)`
+const CardMod = styled(Card)`
   .ant-card {
-    width: 232px;
+    width: 100px;
   }
   .ant-card-body {
     width: inherit;
-    height: 252px;
-    padding: 20px;
+    height: 100px;
+    padding: 0px;
     flex-shrink: 0;
   }
 `;
 
-export default ModifiedCard;
+export default CardMod;

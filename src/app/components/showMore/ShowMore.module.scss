@@ -1,0 +1,12 @@
+@import '@/styles';
+
+.more_btn {
+  width: 502px;
+  height: 50px;
+  margin-bottom: 50px;
+
+  flex-shrink: 0;
+  background-color: #2196f3;
+
+  @include ticket-more-btn;
+}

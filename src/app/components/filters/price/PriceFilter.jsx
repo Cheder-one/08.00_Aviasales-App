@@ -1,23 +1,30 @@
 import { Radio } from 'antd';
+import styled from '@emotion/styled';
 
-import c from './PriceFilter.module.scss';
+import _ from './PriceFilter.module.scss';
+
+const RadioBtnMod = styled(Radio.Button)`
+  .ant-radio-button-wrapper:hover {
+    color: red;
+  }
+`;
 
 function PriceFilter() {
   return (
     <Radio.Group
-      className={c.price_filter}
+      className={_.price_filter}
       buttonStyle="solid"
       defaultValue="cheap"
     >
-      <Radio.Button className={c.btn_label} value="cheap">
+      <RadioBtnMod className={_.btn_label} value="cheap">
         Самый дешевый
-      </Radio.Button>
-      <Radio.Button className={c.btn_label} value="fast">
+      </RadioBtnMod>
+      <RadioBtnMod className={_.btn_label} value="fast">
         Самый быстрый
-      </Radio.Button>
-      <Radio.Button className={c.btn_label} value="optimal">
+      </RadioBtnMod>
+      <RadioBtnMod className={_.btn_label} value="optimal">
         Оптимальный
-      </Radio.Button>
+      </RadioBtnMod>
     </Radio.Group>
   );
 }

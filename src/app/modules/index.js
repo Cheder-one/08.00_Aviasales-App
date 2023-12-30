@@ -1,4 +1,5 @@
-import ModifiedCard from './ModifiedCard';
-import ModifiedCheckbox from './ModifiedCheckbox';
+import ButtonMod from './ButtonMod';
+import CardMod from './CardMod';
+import CheckboxMod from './CheckboxMod';
 
-export { ModifiedCard, ModifiedCheckbox };
+export { ButtonMod, CardMod, CheckboxMod };

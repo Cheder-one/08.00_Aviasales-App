@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-
 import { Checkbox, ConfigProvider } from 'antd';
 import styled from '@emotion/styled';
 
-const StyledCheckbox = styled(Checkbox)`
+const CheckboxStyled = styled(Checkbox)`
   .ant-checkbox {
     border-color: #2196f3;
   }
@@ -22,13 +21,13 @@ const StyledCheckbox = styled(Checkbox)`
     ).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
     .ant-checkbox-checked:not(.ant-checkbox-disabled)
     .ant-checkbox-inner {
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #2196f3;
     background-clip: border-box;
   }
 `;
 
-function ModifiedCheckbox(props) {
+function CheckboxMod(props) {
   return (
     <ConfigProvider
       theme={{
@@ -42,9 +41,9 @@ function ModifiedCheckbox(props) {
         },
       }}
     >
-      <StyledCheckbox {...props} />
+      <CheckboxStyled {...props} />
     </ConfigProvider>
   );
 }
 
-export default ModifiedCheckbox;
+export default CheckboxMod;
