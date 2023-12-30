@@ -3,6 +3,18 @@
 .price_filter {
   padding-bottom: 20px;
 
+  :global {
+    .ant-radio-button-checked {
+      background-color: #2196f3;
+    }
+
+    .ant-radio-button-wrapper {
+      &:hover {
+        color: #2196f3;
+      }
+    }
+  }
+
   .btn_label {
     width: 168px;
     height: 50px;
