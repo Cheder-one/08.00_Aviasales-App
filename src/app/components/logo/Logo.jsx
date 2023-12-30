@@ -1,4 +1,4 @@
-import logoSrc from '../../assets/Logo.png';
+import logoSrc from '../../assets/logo.png';
 
 import c from './Logo.module.scss';
 

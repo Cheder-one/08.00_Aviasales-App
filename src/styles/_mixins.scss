@@ -29,3 +29,32 @@
   font-weight: 400;
   line-height: 153.846%;
 }
+
+@mixin ticket-price-title {
+  color: $Primary-Colors-Primary-500;
+  font-family: Open Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+@mixin ticket-table-header {
+  color: #a0b0b9;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+@mixin ticket-table-body {
+  color: #4a4a4a;
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+}

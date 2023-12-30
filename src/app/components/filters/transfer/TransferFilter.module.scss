@@ -1,6 +1,8 @@
-@import '../../../../styles/mixins';
+@import '@/styles';
 
 .transfer_filter {
+  box-shadow: $transfer-box-shadow;
+
   .title {
     display: flex;
     padding-bottom: 20px;

@@ -1,4 +1,15 @@
 {
   "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": [["@emotion"]]
+  "plugins": [
+    ["@emotion"],
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@styles": "./src/styles"
+        }
+      }
+    ]
+  ]
 }

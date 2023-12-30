@@ -9,13 +9,13 @@ function PriceFilter() {
       buttonStyle="solid"
       defaultValue="cheap"
     >
-      <Radio.Button className={c.filter} value="cheap">
+      <Radio.Button className={c.btn_label} value="cheap">
         Самый дешевый
       </Radio.Button>
-      <Radio.Button className={c.filter} value="fast">
+      <Radio.Button className={c.btn_label} value="fast">
         Самый быстрый
       </Radio.Button>
-      <Radio.Button className={c.filter} value="optimal">
+      <Radio.Button className={c.btn_label} value="optimal">
         Оптимальный
       </Radio.Button>
     </Radio.Group>

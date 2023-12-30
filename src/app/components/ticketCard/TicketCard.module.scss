@@ -1,0 +1,27 @@
+@import '@/styles';
+
+.ticket {
+  filter: $ticket-card-filter-shadow;
+
+  .price {
+    @include ticket-price-title;
+  }
+
+  .row_title {
+    padding-bottom: 20px;
+  }
+
+  .row_table {
+    &:not(:last-child) {
+      padding-bottom: 10px;
+    }
+
+    .header {
+      @include ticket-table-header;
+    }
+
+    .body {
+      @include ticket-table-body;
+    }
+  }
+}
