@@ -1,7 +1,9 @@
+/* eslint-disable consistent-return */
 import { Checkbox, Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators as combine } from 'redux';
 import { useEffect, useRef } from 'react';
+import { last, without } from 'lodash';
 
 import { CheckboxMod } from '../../../modules/index';
 
@@ -25,26 +27,27 @@ function TransferFilter() {
   }, [transfers]);
 
   const handleCheckboxChange = (ids) => {
-    const lastFilter = ids[ids.length - 1];
-    const { current: prevFilters } = prevTransfers;
+    const lastFtr = last(ids);
+    const { current: prevFtrs } = prevTransfers;
 
-    const isLast = (filter) => lastFilter === filter;
+    const isLastFtr = (f) => lastFtr === f;
+    const isAllExist = ids.includes('all');
+    const isNoneExist = ids.includes('none');
+    const isTransfSelected = !isLastFtr('none') && !isLastFtr('all');
+    const isLastTransfRemoved = prevFtrs.length === 2 && prevFtrs.includes('all'); // prettier-ignore
 
-    const isAll = ids.includes('all');
-    const isNone = ids.includes('none');
-    const isLastTransferRemoved = prevFilters.length === 2;
-    const isTransferSelected = !isLast('none') && !isLast('all');
-
-    if (isTransferSelected && isNone) {
-      const wOutNone = ids.filter((f) => f !== 'none');
-      checkboxChanged([...wOutNone]);
-    } else if (isTransferSelected) {
-      checkboxChanged(ids);
-    } else if (isLastTransferRemoved) {
-      checkboxChanged([]);
-    } else if (isAll && !isLast('none')) {
-      checkboxChanged([...getMapWOutNone()]);
-    } else if (isNone && !isLast('all')) {
+    if (isTransfSelected) {
+      return isNoneExist
+        ? checkboxChanged(without(ids, 'none'))
+        : checkboxChanged(ids);
+    }
+    if (isLastTransfRemoved) {
+      return checkboxChanged([]);
+    }
+    if (isAllExist && !isLastFtr('none')) {
+      return checkboxChanged(getMapWOutNone());
+    }
+    if (isNoneExist && !isLastFtr('all')) {
       checkboxChanged(['none']);
     }
   };
