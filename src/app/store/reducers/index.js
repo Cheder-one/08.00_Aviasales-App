@@ -1,5 +1,11 @@
 import errorsReducer from './errors';
 import ticketsReducer from './tickets';
 import transfersReducer from './filters/transfers';
+import typeReducer from './filters/type';
 
-export { errorsReducer, transfersReducer, ticketsReducer };
+export {
+  typeReducer,
+  errorsReducer,
+  transfersReducer,
+  ticketsReducer,
+};

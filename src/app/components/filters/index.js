@@ -1,4 +1,4 @@
-import PriceFilter from './price/PriceFilter';
+import TypeFilter from './type/TypeFilter';
 import TransferFilter from './transfer/TransferFilter';
 
-export { PriceFilter, TransferFilter };
+export { TypeFilter, TransferFilter };

@@ -3,12 +3,15 @@ import { Checkbox, Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators as combine } from 'redux';
 import { useEffect, useRef } from 'react';
-import { last, without } from 'lodash';
+import { isEqual, last, without } from 'lodash';
 
 import { CheckboxMod } from '../../../modules/index';
 
 import _ from './TransferFilter.module.scss';
-import checkboxMap, { getMapWOutNone } from './checkboxMap';
+import checkboxMap, {
+  getAllIds,
+  getIdsWithoutNone,
+} from './utils/checkboxMap';
 
 // eslint-disable-next-line
 import { actions, selectors } from '@/reducers/filters/transfers';
@@ -27,29 +30,43 @@ function TransferFilter() {
   }, [transfers]);
 
   const handleCheckboxChange = (ids) => {
-    const lastFtr = last(ids);
     const { current: prevFtrs } = prevTransfers;
 
-    const isLastFtr = (f) => lastFtr === f;
     const isAllExist = ids.includes('all');
-    const isNoneExist = ids.includes('none');
-    const isTransfSelected = !isLastFtr('none') && !isLastFtr('all');
-    const isLastTransfRemoved = prevFtrs.length === 2 && prevFtrs.includes('all'); // prettier-ignore
+    const isPrevAllExist = prevFtrs.includes('all');
+    const isCurrClick = (id) => isEqual(last(ids), id);
 
-    if (isTransfSelected) {
-      return isNoneExist
-        ? checkboxChanged(without(ids, 'none'))
-        : checkboxChanged(ids);
+    const diffLen = checkboxMap.length - 1 === ids.length;
+    const isManualAllSelected = diffLen && !isAllExist;
+    const isManualAllRuined = diffLen && isAllExist;
+
+    if (isCurrClick('all')) {
+      checkboxChanged(getAllIds());
+    } else if (isPrevAllExist && !isAllExist) {
+      checkboxChanged([]);
+    } else if (isManualAllSelected) {
+      checkboxChanged(getAllIds());
+    } else if (isManualAllRuined) {
+      checkboxChanged(without(ids, 'all'));
+    } else {
+      checkboxChanged(ids);
     }
-    if (isLastTransfRemoved) {
-      return checkboxChanged([]);
-    }
-    if (isAllExist && !isLastFtr('none')) {
-      return checkboxChanged(getMapWOutNone());
-    }
-    if (isNoneExist && !isLastFtr('all')) {
-      checkboxChanged(['none']);
-    }
+
+    // if (isTransfersSelected) {
+    //   if (isPrevAllExist && !isAllExist) {
+    //     checkboxChanged([]);
+    //   } else if (isManualAllSelected) {
+    //     checkboxChanged(getAllIds());
+    //   } else if (isManualAllRuined) {
+    //     checkboxChanged(without(ids, 'all'));
+    //   } else {
+    //     checkboxChanged(ids);
+    //   }
+    // } else if (isAllExist) {
+    //   checkboxChanged(getAllIds());
+    // } else if (isNoneExist) {
+    //   checkboxChanged(ids);
+    // }
   };
 
   return (

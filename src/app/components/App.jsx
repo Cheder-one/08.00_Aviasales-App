@@ -6,7 +6,7 @@ import _ from './App.module.scss';
 import Logo from './logo/Logo';
 import ShowMore from './showMore/ShowMore';
 import TicketCard from './ticketCard/TicketCard';
-import { PriceFilter, TransferFilter } from './filters';
+import { TypeFilter, TransferFilter } from './filters';
 
 const data = Array(10).fill(0);
 
@@ -21,7 +21,7 @@ function App() {
           <TransferFilter />
         </Col>
         <Col>
-          <PriceFilter />
+          <TypeFilter />
           <TicketList data={data} />
           <ShowMore text="Показать еще 5 билетов!" />
         </Col>
