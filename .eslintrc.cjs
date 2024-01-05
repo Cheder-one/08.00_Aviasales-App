@@ -52,17 +52,14 @@ module.exports = {
       'warn',
       { extensions: ['.js', '.jsx'] },
     ],
-    'import/no-unresolved': ['error', { caseSensitive: false }],
+    // 'import/no-unresolved': ['error', { caseSensitive: false }],
     'no-unused-vars': [
       'warn',
       {
         varsIgnorePattern: 'jsx',
       },
     ],
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: true },
-    ],
+    'import/no-extraneous-dependencies': 'off',
     'import/no-cycle': 'off',
     // '@emotion/jsx-import': 'error',
     '@emotion/import-from-emotion': 'error',
@@ -88,14 +85,19 @@ module.exports = {
     ],
   },
   settings: {
+    'import/extensions': ['.js', '.jsx', '.json', '.css', '.scss'],
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         moduleDirectory: ['node_modules', 'src/'],
       },
       alias: {
-        map: [['@styles', './src/styles']],
-        extensions: ['.js', '.jsx', '.json', 'css', 'scss'],
+        map: [
+          ['@', './src'],
+          ['@styles', './src/styles'],
+          ['@reducers', './src/app/store/reducers'],
+        ],
+        extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
       },
     },
   },

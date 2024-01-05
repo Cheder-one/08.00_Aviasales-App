@@ -3,6 +3,18 @@
 .transfer_filter {
   box-shadow: $transfer-box-shadow;
 
+  :global {
+    .ant-card {
+      width: 232px;
+    }
+    .ant-card-body {
+      width: inherit;
+      height: 252px;
+      padding: 0px;
+      padding-top: 20px;
+    }
+  }
+
   .title {
     display: flex;
     padding-left: 20px;
@@ -29,5 +41,9 @@
 
       @include transfer-filter-label;
     }
+  }
+
+  @media screen and (max-width: 767.9px) {
+    margin-bottom: 20px;
   }
 }

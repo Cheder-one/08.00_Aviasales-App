@@ -9,6 +9,17 @@
 .ticket {
   filter: $ticket-card-filter-shadow;
 
+  :global {
+    .ant-card {
+      width: 502px;
+    }
+    .ant-card-body {
+      width: inherit;
+      // height: 184px;
+      padding: 0px;
+    }
+  }
+
   .price {
     @include ticket-price-title;
   }
@@ -19,9 +30,10 @@
 
   .row_table {
     padding-left: 20px;
+    padding-bottom: 10px;
 
-    &:not(:last-child) {
-      padding-bottom: 10px;
+    @media screen and (max-width: 767.9px) {
+      padding-right: 10px;
     }
 
     .header {

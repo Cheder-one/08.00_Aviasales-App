@@ -3,14 +3,30 @@
 .price_filter {
   padding-bottom: 20px;
 
-  :global {
-    .ant-radio-button-checked {
-      background-color: #2196f3;
-    }
+  @media screen and (max-width: 767.9px) {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
-    .ant-radio-button-wrapper {
-      &:hover {
-        color: #2196f3;
+  :global {
+    .ant-radio-button {
+      //
+      &-wrapper {
+        &-checked {
+          &:not(.ant-radio-button-wrapper-disabled) {
+            background-color: #2196f3;
+          }
+        }
+
+        &:hover {
+          color: #2196f3;
+        }
+
+        @media screen and (max-width: 767.9px) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
   }
@@ -24,5 +40,10 @@
     user-select: none;
 
     @include price-filter-label;
+
+    @media screen and (max-width: 767.9px) {
+      padding: 0;
+      flex-shrink: 1;
+    }
   }
 }

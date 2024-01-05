@@ -1,14 +1,12 @@
 import { Row, Col } from 'antd';
 
-import './App.module.scss';
 import withTicketList from '../hoc/withTicketList';
 
+import _ from './App.module.scss';
 import Logo from './logo/Logo';
-import { PriceFilter, TransferFilter } from './filters';
-import TicketCard from './ticketCard/TicketCard';
 import ShowMore from './showMore/ShowMore';
-
-// TODO Реализовать мобильный адаптив
+import TicketCard from './ticketCard/TicketCard';
+import { PriceFilter, TransferFilter } from './filters';
 
 const data = Array(10).fill(0);
 
@@ -18,7 +16,7 @@ function App() {
   return (
     <>
       <Logo />
-      <Row justify="center" gutter={20}>
+      <Row className={_.main_row} justify="center" gutter={20}>
         <Col>
           <TransferFilter />
         </Col>

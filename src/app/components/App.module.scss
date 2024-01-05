@@ -1,3 +1,9 @@
 body {
   background: #f3f7fa;
 }
+
+.main_row {
+  @media screen and (max-width: 767.9px) {
+    padding: 0 20px;
+  }
+}

@@ -8,7 +8,11 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@/styles': path.resolve(__dirname, './src/styles/index.scss'),
+      '@/styles': path.resolve(__dirname, './src/styles'),
+      '@/reducers': path.resolve(
+        __dirname,
+        './src/app/store/reducers'
+      ),
     },
   },
 });

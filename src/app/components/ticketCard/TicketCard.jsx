@@ -1,23 +1,12 @@
-import { Row, Col } from 'antd';
-import styled from '@emotion/styled';
+import { Row, Col, Card } from 'antd';
 
-import { CardMod } from '../../modules/index';
 import companyLogoSrc from '../../assets/companyLogo.svg';
 
 import _ from './TicketCard.module.scss';
 
-const TicketCardMod = styled(CardMod)`
-  .ant-card {
-    width: 502px;
-  }
-  .ant-card-body {
-    height: 184px;
-  }
-`;
-
 function TicketCard() {
   return (
-    <TicketCardMod className={_.ticket}>
+    <Card className={_.ticket}>
       <Row
         className={_.row_title}
         justify="space-between"
@@ -58,7 +47,7 @@ function TicketCard() {
           <Row className={_.body}>HKG</Row>
         </Col>
       </Row>
-    </TicketCardMod>
+    </Card>
   );
 }
 
