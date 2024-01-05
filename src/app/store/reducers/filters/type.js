@@ -15,16 +15,16 @@ const typeSlice = createSlice({
   },
 });
 
-const { update } = typeSlice.actions;
 const { reducer: typeReducer } = typeSlice;
+const { update } = typeSlice.actions;
 
-export const actions = {
+export const typeActions = {
   typeUpdated: (type) => {
     return update(type);
   },
 };
 
-export const selectors = {
+export const typeSelectors = {
   getType: () => (state) => state.filters.type.entities,
 };
 

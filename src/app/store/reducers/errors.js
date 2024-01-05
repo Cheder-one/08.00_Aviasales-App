@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { entities: [] };
+import { throwNewErr } from '../../utils';
+
+const initialState = {
+  entities: [],
+};
 
 const errorsSlice = createSlice({
   name: 'errors',
@@ -13,13 +17,19 @@ const errorsSlice = createSlice({
   },
 });
 
+const { reducer: errorReducer } = errorsSlice;
 const { set } = errorsSlice.actions;
 
-export const setErrors = (message) => (dispatch) => {
-  dispatch(set(message));
+export const errorActions = {
+  setErrors: (error) => (dispatch) => {
+    const { message, info } = error;
+    dispatch(set(message));
+    throwNewErr(message, info);
+  },
 };
 
-export const getErrors = () => (state) => state.errors.entities;
+export const errorSelectors = {
+  getErrors: () => (state) => state.errors.entities,
+};
 
-const { reducer: errorReducer } = errorsSlice;
 export default errorReducer;

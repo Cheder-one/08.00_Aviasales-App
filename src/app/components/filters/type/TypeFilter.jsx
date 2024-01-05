@@ -5,15 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import _ from './TypeFilter.module.scss';
 
 // eslint-disable-next-line
-import { actions, selectors } from '@/reducers/filters/type';
+import { typeActions, typeSelectors } from '@/reducers/filters/type';
 
-const { getType } = selectors;
+const { getType } = typeSelectors;
 
 function TypeFilter() {
   const type = useSelector(getType());
   const dispatch = useDispatch();
 
-  const { typeUpdated } = combine(actions, dispatch);
+  const { typeUpdated } = combine(typeActions, dispatch);
 
   const handleTypeChange = ({ target }) => {
     const { value } = target;

@@ -1,16 +1,13 @@
 import _ from '../components/ticketCard/TicketCard.module.scss';
-
-const getId = () => {
-  return Math.random().toString(36).substring(7);
-};
+import { generateId } from '../utils';
 
 const withTicketList = (Component) => {
-  function TicketList({ data }) {
+  function TicketList({ tickets }) {
     return (
       <div className={_.ticket_list}>
-        {data.map((ticket) => (
-          <Component key={getId()} ticket={ticket} />
-        ))}
+        {tickets.map((item) => {
+          return <Component key={generateId()} ticket={item} />;
+        })}
       </div>
     );
   }

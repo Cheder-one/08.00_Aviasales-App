@@ -15,16 +15,16 @@ const transfersSlice = createSlice({
   },
 });
 
-const { update } = transfersSlice.actions;
 const { reducer: transfersReducer } = transfersSlice;
+const { update } = transfersSlice.actions;
 
-export const actions = {
+export const transferActions = {
   checkboxChanged: (arrIds) => {
     return update(arrIds);
   },
 };
 
-export const selectors = {
+export const transferSelectors = {
   getTransfers: () => (state) => state.filters.transfers.entities,
 };
 

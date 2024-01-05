@@ -1,6 +1,13 @@
-import { Row, Col } from 'antd';
+import { Row, Col, Spin, Flex } from 'antd';
+import { bindActionCreators as combine } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import withTicketList from '../hoc/withTicketList';
+import {
+  ticketActions,
+  ticketSelectors,
+} from '../store/reducers/tickets';
 
 import _ from './App.module.scss';
 import Logo from './logo/Logo';
@@ -8,12 +15,22 @@ import ShowMore from './showMore/ShowMore';
 import TicketCard from './ticketCard/TicketCard';
 import { TypeFilter, TransferFilter } from './filters';
 
-const data = Array(10).fill(0);
+const { getTickets, getTicketsLoadingStatus } = ticketSelectors;
 
 function App() {
+  const tickets = useSelector(getTickets());
+  const isLoading = useSelector(getTicketsLoadingStatus());
+  const dispatch = useDispatch();
+
+  const { tasksLoaded } = combine(ticketActions, dispatch);
+
+  useEffect(() => {
+    tasksLoaded();
+  }, []);
+
   const TicketList = withTicketList(TicketCard);
 
-  return (
+  return !isLoading ? (
     <>
       <Logo />
       <Row className={_.main_row} justify="center" gutter={20}>
@@ -22,11 +39,15 @@ function App() {
         </Col>
         <Col>
           <TypeFilter />
-          <TicketList data={data} />
+          <TicketList tickets={tickets} />
           <ShowMore text="Показать еще 5 билетов!" />
         </Col>
       </Row>
     </>
+  ) : (
+    <Flex justify="center" align="center" style={{ height: '100vh' }}>
+      <Spin size="large" />
+    </Flex>
   );
 }
 

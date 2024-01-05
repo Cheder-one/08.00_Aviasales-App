@@ -8,22 +8,22 @@ import { isEqual, last, without } from 'lodash';
 import { CheckboxMod } from '../../../modules/index';
 
 import _ from './TransferFilter.module.scss';
-import checkboxMap, {
-  getAllIds,
-  getIdsWithoutNone,
-} from './utils/checkboxMap';
+import checkboxMap, { getAllIds } from './utils/checkboxMap';
 
-// eslint-disable-next-line
-import { actions, selectors } from '@/reducers/filters/transfers';
+import {
+  transferActions,
+  transferSelectors,
+  // eslint-disable-next-line
+} from '@/reducers/filters/transfers';
 
-const { getTransfers } = selectors;
+const { getTransfers } = transferSelectors;
 
 function TransferFilter() {
   const transfers = useSelector(getTransfers());
   const dispatch = useDispatch();
   const prevTransfers = useRef();
 
-  const { checkboxChanged } = combine(actions, dispatch);
+  const { checkboxChanged } = combine(transferActions, dispatch);
 
   useEffect(() => {
     prevTransfers.current = transfers;
