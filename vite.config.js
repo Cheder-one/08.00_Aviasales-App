@@ -9,10 +9,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/styles': path.resolve(__dirname, './src/styles'),
-      '@/reducers': path.resolve(
-        __dirname,
-        './src/app/store/reducers'
-      ),
+      // prettier-ignore
+      '@/reducers': path.resolve(__dirname, './src/app/store/reducers'),
+      '@/utils': path.resolve(__dirname, './src/app/utils'),
+      '@/ui': path.resolve(__dirname, './src/app/ui'),
     },
   },
 });

@@ -3,12 +3,13 @@
   "plugins": [
     ["@emotion"],
     [
-      "module-resolver",
+      "babel-plugin-module-resolver",
       {
-        "root": ["./src"],
         "alias": {
-          "@styles": "./src/styles",
-          "@reducers": "./src/app/store/reducers"
+          "@/styles": "./src/styles",
+          "@/reducers": "./src/app/store/reducers",
+          "@/utils": "./src/app/utils",
+          "@/ui": "./src/app/ui"
         }
       }
     ]

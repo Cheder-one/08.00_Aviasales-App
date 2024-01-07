@@ -93,9 +93,10 @@ module.exports = {
       },
       alias: {
         map: [
-          ['@', './src'],
-          ['@styles', './src/styles'],
-          ['@reducers', './src/app/store/reducers'],
+          ['@/styles', './src/styles'],
+          ['@/reducers', './src/app/store/reducers'],
+          ['@/utils', './src/app/utils'],
+          ['@/ui', './src/app/ui'],
         ],
         extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
       },

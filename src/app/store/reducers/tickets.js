@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-import ticketsService from '../service/tickets.service';
-import { throwNewErr } from '../../utils';
+import ticketsService from '../../service/tickets.service';
+import { createNewErr } from '../../utils';
 
 import { errorActions } from './errors';
 
@@ -31,20 +31,23 @@ const ticketsSlice = createSlice({
   },
 });
 
+// prettier-ignore
+const { received, ticketsRequested, ticketsRequestFailed } = ticketsSlice.actions;
 const { reducer: ticketsReducer } = ticketsSlice;
-const { received, ticketsRequested, ticketsRequestFailed } =
-  ticketsSlice.actions;
 
 export const ticketActions = {
-  tasksLoaded: () => async (dispatch) => {
+  ticketsChunkLoaded: () => async (dispatch, getState) => {
     dispatch(ticketsRequested());
     try {
-      const data = await ticketsService.fetch();
+      const searchId = getState().search.entities;
+      const data = await ticketsService.fetch(searchId);
       dispatch(received(data));
     } catch ({ message }) {
       const info = 'Ошибка при получении билетов';
+
       dispatch(ticketsRequestFailed());
       dispatch(setErrors({ message, info }));
+      throw createNewErr(message, info);
     }
   },
 };

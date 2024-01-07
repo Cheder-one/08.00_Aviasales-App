@@ -5,16 +5,17 @@ import { bindActionCreators as combine } from 'redux';
 import { useEffect, useRef } from 'react';
 import { isEqual, last, without } from 'lodash';
 
-import { CheckboxMod } from '../../../modules/index';
-
-import _ from './TransferFilter.module.scss';
-import checkboxMap, { getAllIds } from './utils/checkboxMap';
-
 import {
   transferActions,
   transferSelectors,
-  // eslint-disable-next-line
 } from '@/reducers/filters/transfers';
+
+import { CheckboxMod } from '../../../ui/index';
+import checkboxMap, {
+  getAllIds,
+} from '../../../utils/transfersFilter/checkboxMap';
+
+import _ from './TransferFilter.module.scss';
 
 const { getTransfers } = transferSelectors;
 

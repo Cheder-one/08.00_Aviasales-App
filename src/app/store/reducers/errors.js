@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-import { throwNewErr } from '../../utils';
-
 const initialState = {
   entities: [],
 };
@@ -23,8 +21,7 @@ const { set } = errorsSlice.actions;
 export const errorActions = {
   setErrors: (error) => (dispatch) => {
     const { message, info } = error;
-    dispatch(set(message));
-    throwNewErr(message, info);
+    dispatch(set({ message, info }));
   },
 };
 

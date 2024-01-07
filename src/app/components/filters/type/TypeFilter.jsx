@@ -2,10 +2,9 @@ import { bindActionCreators as combine } from 'redux';
 import { Radio } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 
-import _ from './TypeFilter.module.scss';
-
-// eslint-disable-next-line
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
+
+import _ from './TypeFilter.module.scss';
 
 const { getType } = typeSelectors;
 

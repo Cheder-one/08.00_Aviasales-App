@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 
 import _ from './ShowMore.module.scss';
 
-function ShowMore({ text }) {
+function ShowMore({ text, onShowMore }) {
   return (
-    <Button className={_.more_btn} block>
+    <Button
+      className={_.more_btn}
+      block
+      type="primary"
+      onClick={onShowMore}
+    >
       {text}
     </Button>
   );

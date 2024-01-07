@@ -1,8 +1,8 @@
-const throwNewErr = (message, info) => {
+const createNewErr = (message, info) => {
   const error = new Error();
   error.message = `${info} \n${message}`;
   error.info = info;
-  throw error;
+  return error;
 };
 
-export default throwNewErr;
+export default createNewErr;

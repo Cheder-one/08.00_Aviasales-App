@@ -1,34 +1,47 @@
-import { Row, Col, Spin, Flex } from 'antd';
+import { useEffect } from 'react';
+import { Row, Col, FloatButton } from 'antd';
 import { bindActionCreators as combine } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
-import withTicketList from '../hoc/withTicketList';
-import {
-  ticketActions,
-  ticketSelectors,
-} from '../store/reducers/tickets';
+import { ticketActions, ticketSelectors } from '@/reducers/tickets';
+import { searchActions, searchSelectors } from '@/reducers/searchId';
+
+import { Loader, Logo } from '../ui';
+import { useFirstRender } from '../hooks';
 
 import _ from './App.module.scss';
-import Logo from './logo/Logo';
-import ShowMore from './showMore/ShowMore';
-import TicketCard from './ticketCard/TicketCard';
 import { TypeFilter, TransferFilter } from './filters';
+import { TicketCard, withTicketList } from './ticket';
 
 const { getTickets, getTicketsLoadingStatus } = ticketSelectors;
 
-function App() {
-  const tickets = useSelector(getTickets());
-  const isLoading = useSelector(getTicketsLoadingStatus());
-  const dispatch = useDispatch();
+const { getSearchId } = searchSelectors;
 
-  const { tasksLoaded } = combine(ticketActions, dispatch);
+function App() {
+  const dispatch = useDispatch();
+  const isFirstRender = useFirstRender();
+  const tickets = useSelector(getTickets());
+  const searchId = useSelector(getSearchId());
+  const isLoading = useSelector(getTicketsLoadingStatus());
+
+  const { ticketsChunkLoaded } = combine(ticketActions, dispatch);
+  const { searchIdWasSet } = combine(searchActions, dispatch);
 
   useEffect(() => {
-    tasksLoaded();
+    searchIdWasSet();
   }, []);
 
+  useEffect(() => {
+    if (isFirstRender) return;
+    ticketsChunkLoaded();
+  }, [searchId]);
+
   const TicketList = withTicketList(TicketCard);
+
+  // TODO Реализовать фильтрацию билетов
+  // TODO Реализовать "Рейсов, подходящих под заданные фильтры, не найдено"
+  // TODO Реализовать запись и отображение ошибки при неудачной загрузке
+  // TODO ?Загрузить 10к и сделать лоадер.
 
   return !isLoading ? (
     <>
@@ -39,15 +52,14 @@ function App() {
         </Col>
         <Col>
           <TypeFilter />
-          <TicketList tickets={tickets} />
-          <ShowMore text="Показать еще 5 билетов!" />
+          <TicketList tickets={tickets} chunkNum={5} />
         </Col>
       </Row>
+      {/* <ConnectionStatus /> */}
+      <FloatButton.BackTop />
     </>
   ) : (
-    <Flex justify="center" align="center" style={{ height: '100vh' }}>
-      <Spin size="large" />
-    </Flex>
+    <Loader />
   );
 }
 

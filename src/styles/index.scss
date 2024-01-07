@@ -2,3 +2,16 @@
 @import './fonts';
 @import './reset';
 @import './mixins';
+
+body {
+  background: #f3f7fa;
+}
+
+#root {
+  height: 100vh;
+  background: #f3f7fa;
+}
+
+.ant-float-btn {
+  left: 20px;
+}
