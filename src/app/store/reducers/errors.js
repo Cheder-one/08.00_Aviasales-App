@@ -1,26 +1,26 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+const SET = 'errors/set';
 
 const initialState = {
   entities: [],
 };
 
-const errorsSlice = createSlice({
-  name: 'errors',
-  initialState,
-  reducers: {
-    set(state, action) {
-      state.entities = action.payload;
-    },
-  },
+const set = (errors) => ({
+  type: SET,
+  payload: errors,
 });
 
-const { reducer: errorReducer } = errorsSlice;
-const { set } = errorsSlice.actions;
+const errorReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET:
+      return { ...state, entities: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const errorActions = {
-  setErrors: (error) => (dispatch) => {
-    const { message, info } = error;
+  setErrors: (err) => (dispatch) => {
+    const { message, info } = err;
     dispatch(set({ message, info }));
   },
 };

@@ -1,22 +1,22 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+const UPDATED = 'type/updated';
 
 const initialState = {
   entities: 'cheap',
 };
 
-const typeSlice = createSlice({
-  name: 'type',
-  initialState,
-  reducers: {
-    updated(state, action) {
-      state.entities = action.payload;
-    },
-  },
+const updated = (type) => ({
+  type: UPDATED,
+  payload: type,
 });
 
-const { reducer: typeReducer } = typeSlice;
-const { updated } = typeSlice.actions;
+const typeReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATED:
+      return { ...state, entities: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const typeActions = {
   typeUpdated: (type) => {

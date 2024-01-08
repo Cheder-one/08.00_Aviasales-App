@@ -2,10 +2,10 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import './styles/index.scss';
-import createStore from './app/store/store';
 import App from './App';
+import initiateStore from './app/store/root/store';
 
-const store = createStore();
+const store = initiateStore();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
