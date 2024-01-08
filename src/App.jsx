@@ -6,12 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { searchActions, searchSelectors } from '@/reducers/searchId';
 
-import { Loader, Logo } from '../ui';
-import { useFirstRender } from '../hooks';
-
+import { Loader, Logo } from './app/ui';
+import { useFirstRender } from './app/hooks';
 import _ from './App.module.scss';
-import { TypeFilter, TransferFilter } from './filters';
-import { TicketCard, withTicketList } from './ticket';
+import { TypeFilter, TransferFilter } from './app/components/filters';
+import { TicketCard, withTicketList } from './app/components/ticket';
 
 const { getTickets, getTicketsLoadingStatus } = ticketSelectors;
 

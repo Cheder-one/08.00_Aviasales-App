@@ -1,5 +1,5 @@
-import { bindActionCreators as combine } from 'redux';
 import { Radio } from 'antd';
+import { bindActionCreators as combine } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
@@ -24,7 +24,6 @@ function TypeFilter() {
       className={_.type_filter}
       value={type}
       buttonStyle="solid"
-      defaultValue="cheap"
       onChange={handleTypeChange}
     >
       <Radio.Button className={_.btn_label} value="cheap">

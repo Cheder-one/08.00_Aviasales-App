@@ -6,15 +6,15 @@ const checkboxMap = [
   { id: '3', value: '3 пересадки' },
 ];
 
-export const getIdsWithoutNone = () => {
+const getIdsWithoutNone = () => {
   const without = checkboxMap.filter((item) => item.id !== 'none');
   const ids = without.map((item) => item.id);
   return ids;
 };
 
-export const getAllIds = () => {
+const getAllIds = () => {
   const ids = checkboxMap.map((item) => item.id);
   return ids;
 };
 
-export default checkboxMap;
+export { checkboxMap, getAllIds, getIdsWithoutNone };

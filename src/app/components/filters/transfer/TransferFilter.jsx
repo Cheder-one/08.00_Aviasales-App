@@ -9,11 +9,11 @@ import {
   transferActions,
   transferSelectors,
 } from '@/reducers/filters/transfers';
-
-import { CheckboxMod } from '../../../ui/index';
-import checkboxMap, {
+import {
+  checkboxMap,
   getAllIds,
-} from '../../../utils/transfersFilter/checkboxMap';
+} from '@/utils/transfersFilter/checkboxMap';
+import { CheckboxMod } from '@/ui/index';
 
 import _ from './TransferFilter.module.scss';
 
@@ -52,22 +52,6 @@ function TransferFilter() {
     } else {
       checkboxChanged(ids);
     }
-
-    // if (isTransfersSelected) {
-    //   if (isPrevAllExist && !isAllExist) {
-    //     checkboxChanged([]);
-    //   } else if (isManualAllSelected) {
-    //     checkboxChanged(getAllIds());
-    //   } else if (isManualAllRuined) {
-    //     checkboxChanged(without(ids, 'all'));
-    //   } else {
-    //     checkboxChanged(ids);
-    //   }
-    // } else if (isAllExist) {
-    //   checkboxChanged(getAllIds());
-    // } else if (isNoneExist) {
-    //   checkboxChanged(ids);
-    // }
   };
 
   return (

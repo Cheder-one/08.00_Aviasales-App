@@ -9,18 +9,18 @@ const transfersSlice = createSlice({
   name: 'transfers',
   initialState,
   reducers: {
-    update(state, action) {
+    updated(state, action) {
       state.entities = action.payload;
     },
   },
 });
 
 const { reducer: transfersReducer } = transfersSlice;
-const { update } = transfersSlice.actions;
+const { updated } = transfersSlice.actions;
 
 export const transferActions = {
   checkboxChanged: (arrIds) => {
-    return update(arrIds);
+    return updated(arrIds);
   },
 };
 

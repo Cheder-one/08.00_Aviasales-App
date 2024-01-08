@@ -2,25 +2,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  entities: '',
+  entities: 'cheap',
 };
 
 const typeSlice = createSlice({
   name: 'type',
   initialState,
   reducers: {
-    update(state, action) {
+    updated(state, action) {
       state.entities = action.payload;
     },
   },
 });
 
 const { reducer: typeReducer } = typeSlice;
-const { update } = typeSlice.actions;
+const { updated } = typeSlice.actions;
 
 export const typeActions = {
   typeUpdated: (type) => {
-    return update(type);
+    return updated(type);
   },
 };
 

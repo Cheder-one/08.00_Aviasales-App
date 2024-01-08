@@ -2,8 +2,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card } from 'antd';
 
-import { formatPrice, generateId } from '@/utils';
 import { Loader, Wrapper } from '@/ui';
+import { formatPrice, generateId } from '@/utils';
 
 import CarrierLogo from '../CarrierLogo';
 

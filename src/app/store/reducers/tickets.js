@@ -21,6 +21,15 @@ const ticketsSlice = createSlice({
       state.entities.push(...action.payload);
       state.isLoading = false;
     },
+    sortedByPrice(state) {
+      //
+    },
+    sortedByDuration(state) {
+      //
+    },
+    sortedByOptimal(state) {
+      //
+    },
 
     ticketsRequested(state) {
       state.isLoading = true;
@@ -35,21 +44,26 @@ const ticketsSlice = createSlice({
 const { received, ticketsRequested, ticketsRequestFailed } = ticketsSlice.actions;
 const { reducer: ticketsReducer } = ticketsSlice;
 
-export const ticketActions = {
-  ticketsChunkLoaded: () => async (dispatch, getState) => {
-    dispatch(ticketsRequested());
-    try {
-      const searchId = getState().search.entities;
-      const data = await ticketsService.fetch(searchId);
-      dispatch(received(data));
-    } catch ({ message }) {
-      const info = 'Ошибка при получении билетов';
+const ticketsChunkLoaded = () => async (dispatch, getState) => {
+  dispatch(ticketsRequested());
+  try {
+    const searchId = getState().search.entities;
+    const data = await ticketsService.fetch(searchId);
+    dispatch(received(data));
+  } catch ({ message }) {
+    const info = 'Ошибка при получении билетов';
 
-      dispatch(ticketsRequestFailed());
-      dispatch(setErrors({ message, info }));
-      throw createNewErr(message, info);
-    }
-  },
+    dispatch(ticketsRequestFailed());
+    dispatch(setErrors({ message, info }));
+    throw createNewErr(message, info);
+  }
+};
+
+const allTicketsLoaded = () => () => {};
+
+export const ticketActions = {
+  ticketsChunkLoaded,
+  allTicketsLoaded,
 };
 
 export const ticketSelectors = {

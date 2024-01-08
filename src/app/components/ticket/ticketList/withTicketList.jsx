@@ -1,30 +1,31 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import _ from '../ticketCard/TicketCard.module.scss';
 import ShowMore from '../../showMore/ShowMore';
+import _ from '../ticketCard/TicketCard.module.scss';
 
 const withTicketList = (Component) => {
   function TicketList({ tickets, chunkNum }) {
-    const [shownTickets, setShownTickets] = useState([]);
+    const [displayedTickets, setShownTickets] = useState([]);
 
     useEffect(() => {
       setShownTickets(tickets.slice(0, chunkNum));
     }, [tickets, chunkNum]);
 
     const handleShowMore = () => {
-      const count = shownTickets.length;
+      const count = displayedTickets.length;
       const nextChunk = tickets.slice(count, count + chunkNum);
       setShownTickets((prev) => [...prev, ...nextChunk]);
     };
 
+    const hasMoreTickets = displayedTickets.length < tickets.length;
+
     return (
       <div className={_.ticket_list}>
-        {shownTickets.map((item) => (
+        {displayedTickets.map((item) => (
           <Component key={item.id} ticket={item} />
         ))}
-
-        {shownTickets.length < tickets.length && (
+        {hasMoreTickets && (
           <ShowMore
             text="Показать еще 5 билетов!"
             onShowMore={handleShowMore}
