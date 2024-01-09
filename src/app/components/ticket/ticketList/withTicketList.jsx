@@ -1,32 +1,63 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { bindActionCreators as bindActions } from 'redux';
+
+import { typeActions, typeSelectors } from '@/reducers/filters/type';
+import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
+import { useFirstRender } from '../../../hooks';
 
 const withTicketList = (Component) => {
-  function TicketList({ tickets, chunkNum }) {
-    const [displayedTickets, setShownTickets] = useState([]);
+  function TicketList({
+    tickets,
+    chunkNum,
+    typesFilter,
+    ticketsSortedPrice,
+    ticketsSortedDuration,
+    ticketsSortedOptimal,
+  }) {
+    const isFirstRender = useFirstRender();
+    const [visibleTickets, setVisibleTickets] = useState([]);
 
     useEffect(() => {
-      setShownTickets(tickets.slice(0, chunkNum));
-    }, [tickets, chunkNum]);
+      switch (typesFilter) {
+        case 'cheap':
+          ticketsSortedPrice();
+          break;
+        case 'fast':
+          ticketsSortedDuration();
+          break;
+        case 'optimal':
+          ticketsSortedOptimal();
+          break;
+        default:
+      }
+    }, [typesFilter]);
+
+    useEffect(() => {
+      if (isFirstRender) return;
+      setVisibleTickets(tickets.slice(0, chunkNum));
+    }, [tickets]);
 
     const handleShowMore = () => {
-      const count = displayedTickets.length;
+      const count = visibleTickets.length;
       const nextChunk = tickets.slice(count, count + chunkNum);
-      setShownTickets((prev) => [...prev, ...nextChunk]);
+      setVisibleTickets((prev) => [...prev, ...nextChunk]);
     };
 
-    const hasMoreTickets = displayedTickets.length < tickets.length;
+    const hasMoreTickets = visibleTickets.length < tickets.length;
 
     return (
       <div className={_.ticket_list}>
-        {displayedTickets.map((item) => (
+        {visibleTickets.map((item) => (
           <Component key={item.id} ticket={item} />
         ))}
         {hasMoreTickets && (
           <ShowMore
+            className={_.show_more}
             text="Показать еще 5 билетов!"
             onShowMore={handleShowMore}
           />
@@ -59,7 +90,20 @@ const withTicketList = (Component) => {
     chunkNum: PropTypes.number,
   };
 
-  return TicketList;
+  const mapState = (state) => ({
+    typesFilter: typeSelectors.getType(state),
+    tickets: ticketSelectors.getTickets(state),
+  });
+
+  const mapDispatch = (dispatch) => {
+    const types = bindActions(typeActions, dispatch);
+    const tickets = bindActions(ticketActions, dispatch);
+
+    return { ...tickets, ...types };
+  };
+
+  const ConnectedTicketList = connect(mapState, mapDispatch)(TicketList);
+  return ConnectedTicketList;
 };
 
 export default withTicketList;

@@ -5,6 +5,7 @@ import searchReducer from '../reducers/searchId';
 import ticketsReducer from '../reducers/tickets';
 import typeReducer from '../reducers/filters/type';
 import transfersReducer from '../reducers/filters/transfers';
+import counterReducer from '../reducers/counter';
 
 const rootReducer = combineReducers({
   search: searchReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     type: typeReducer,
   }),
   errors: errorReducer,
+  counter: counterReducer,
 });
 
 export default rootReducer;

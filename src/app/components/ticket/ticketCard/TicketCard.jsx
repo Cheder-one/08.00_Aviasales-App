@@ -2,10 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card } from 'antd';
 
-import { Loader, Wrapper } from '@/ui';
 import { formatPrice, generateId } from '@/utils';
 
 import CarrierLogo from '../CarrierLogo';
+import { Loader, Wrapper } from '../../../ui';
 
 import _ from './TicketCard.module.scss';
 import TicketSegment from './ticketSegment/TicketSegment';
@@ -19,7 +19,7 @@ function TicketCard({ ticket }) {
 
   return (
     <Card className={_.ticket}>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader css="min-height:inherit" />} */}
       <Wrapper isHidden={isLoading}>
         <Row
           className={_.row_title}

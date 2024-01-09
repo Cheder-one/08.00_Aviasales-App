@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import _ from './ShowMore.module.scss';
 
-function ShowMore({ text, onShowMore }) {
+function ShowMore({ text, className, onShowMore }) {
   return (
     <Button
-      className={_.more_btn}
+      className={`${_.more_btn} ${className}`}
       block
       type="primary"
       onClick={onShowMore}

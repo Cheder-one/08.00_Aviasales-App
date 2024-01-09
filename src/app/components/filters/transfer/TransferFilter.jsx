@@ -20,7 +20,7 @@ import _ from './TransferFilter.module.scss';
 const { getTransfers } = transferSelectors;
 
 function TransferFilter() {
-  const transfers = useSelector(getTransfers());
+  const transfers = useSelector(getTransfers);
   const dispatch = useDispatch();
   const prevTransfers = useRef();
 

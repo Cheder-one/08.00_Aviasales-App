@@ -1,60 +1,56 @@
 import { useEffect } from 'react';
 import { Row, Col, FloatButton } from 'antd';
-import { bindActionCreators as combine } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators as bindActions } from 'redux';
+import { connect } from 'react-redux';
 
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { searchActions, searchSelectors } from '@/reducers/searchId';
 
+import _ from './App.module.scss';
 import { Loader, Logo } from './app/ui';
 import { useFirstRender } from './app/hooks';
-import _ from './App.module.scss';
 import { TypeFilter, TransferFilter } from './app/components/filters';
 import { TicketCard, withTicketList } from './app/components/ticket';
 
-const { getTickets, getTicketsLoadingStatus } = ticketSelectors;
-
+const { getTicketsLoadingStatus } = ticketSelectors;
 const { getSearchId } = searchSelectors;
 
-function App() {
-  const dispatch = useDispatch();
+function App({
+  searchId,
+  isChunkLoaded,
+  searchIdSet,
+  ticketsLoaded,
+}) {
   const isFirstRender = useFirstRender();
-  const tickets = useSelector(getTickets());
-  const searchId = useSelector(getSearchId());
-  const isLoading = useSelector(getTicketsLoadingStatus());
-
-  const { ticketsChunkLoaded } = combine(ticketActions, dispatch);
-  const { searchIdWasSet } = combine(searchActions, dispatch);
 
   useEffect(() => {
-    searchIdWasSet();
+    searchIdSet();
   }, []);
 
   useEffect(() => {
     if (isFirstRender) return;
-    ticketsChunkLoaded();
+    ticketsLoaded();
   }, [searchId]);
-
-  const TicketList = withTicketList(TicketCard);
 
   // TODO Реализовать фильтрацию билетов
   // TODO Реализовать "Рейсов, подходящих под заданные фильтры, не найдено"
   // TODO Реализовать запись и отображение ошибки при неудачной загрузке
   // TODO ?Загрузить 10к и сделать лоадер.
 
-  return !isLoading ? (
+  const TicketList = withTicketList(TicketCard);
+
+  return isChunkLoaded ? (
     <>
       <Logo />
       <Row className={_.main_row} justify="center" gutter={20}>
         <Col>
           <TransferFilter />
         </Col>
-        <Col>
+        <Col className={_.tickets_col}>
           <TypeFilter />
-          <TicketList tickets={tickets} chunkNum={5} />
+          <TicketList />
         </Col>
       </Row>
-      {/* <ConnectionStatus /> */}
       <FloatButton.BackTop />
     </>
   ) : (
@@ -62,4 +58,17 @@ function App() {
   );
 }
 
-export default App;
+const mapState = (state) => ({
+  searchId: getSearchId(state),
+  isChunkLoaded: getTicketsLoadingStatus(state),
+});
+
+const mapDispatch = (dispatch) => {
+  const tickets = bindActions(ticketActions, dispatch);
+  const search = bindActions(searchActions, dispatch);
+
+  return { ...tickets, ...search };
+};
+
+const ConnectedApp = connect(mapState, mapDispatch)(App);
+export default ConnectedApp;

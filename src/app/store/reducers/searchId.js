@@ -21,14 +21,14 @@ const searchReducer = (state = initialState, action) => {
 };
 
 export const searchActions = {
-  searchIdWasSet: () => async (dispatch) => {
+  searchIdSet: () => async (dispatch) => {
     const searchId = await fetchSearchId();
     dispatch(set(searchId));
   },
 };
 
 export const searchSelectors = {
-  getSearchId: () => (state) => state.search.entities,
+  getSearchId: (state) => state.search.entities,
 };
 
 export default searchReducer;

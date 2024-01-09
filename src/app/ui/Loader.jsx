@@ -1,10 +1,16 @@
 import { Flex, Spin } from 'antd';
+import styled from '@emotion/styled';
 
-function Loader() {
+function Loader({ css }) {
+  const StyledLoader = styled(Flex)`
+    height: 100%;
+    ${css}
+  `;
+
   return (
-    <Flex justify="center" align="center" style={{ height: '100%' }}>
+    <StyledLoader justify="center" align="center">
       <Spin size="large" />
-    </Flex>
+    </StyledLoader>
   );
 }
 

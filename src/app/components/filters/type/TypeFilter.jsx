@@ -9,7 +9,7 @@ import _ from './TypeFilter.module.scss';
 const { getType } = typeSelectors;
 
 function TypeFilter() {
-  const type = useSelector(getType());
+  const type = useSelector(getType);
   const dispatch = useDispatch();
 
   const { typeUpdated } = combine(typeActions, dispatch);

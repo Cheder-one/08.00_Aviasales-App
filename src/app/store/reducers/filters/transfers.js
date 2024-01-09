@@ -25,7 +25,7 @@ export const transferActions = {
 };
 
 export const transferSelectors = {
-  getTransfers: () => (state) => state.filters.transfers.entities,
+  getTransfers: (state) => state.filters.transfers.entities,
 };
 
 export default transfersReducer;

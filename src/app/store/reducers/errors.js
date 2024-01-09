@@ -19,14 +19,14 @@ const errorReducer = (state = initialState, action) => {
 };
 
 export const errorActions = {
-  setErrors: (err) => (dispatch) => {
+  setError: (err) => (dispatch) => {
     const { message, info } = err;
     dispatch(set({ message, info }));
   },
 };
 
 export const errorSelectors = {
-  getErrors: () => (state) => state.errors.entities,
+  getError: (state) => state.errors.entities,
 };
 
 export default errorReducer;

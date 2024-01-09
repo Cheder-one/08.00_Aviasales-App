@@ -25,7 +25,7 @@ export const typeActions = {
 };
 
 export const typeSelectors = {
-  getType: () => (state) => state.filters.type.entities,
+  getType: (state) => state.filters.type.entities,
 };
 
 export default typeReducer;
