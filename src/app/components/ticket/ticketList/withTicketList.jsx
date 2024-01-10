@@ -8,7 +8,6 @@ import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
-import { useFirstRender } from '../../../hooks';
 
 const withTicketList = (Component) => {
   function TicketList({
@@ -19,46 +18,36 @@ const withTicketList = (Component) => {
     ticketsSortedDuration,
     ticketsSortedOptimal,
   }) {
-    const isFirstRender = useFirstRender();
-    const [visibleTickets, setVisibleTickets] = useState([]);
+    const [chunkCount, setChunkCount] = useState(chunkNum);
+    const [filteredTickets, setFilteredTickets] = useState([]);
 
     useEffect(() => {
-      switch (typesFilter) {
-        case 'cheap':
-          ticketsSortedPrice();
-          break;
-        case 'fast':
-          ticketsSortedDuration();
-          break;
-        case 'optimal':
-          ticketsSortedOptimal();
-          break;
-        default:
-      }
-    }, [typesFilter]);
-
-    useEffect(() => {
-      if (isFirstRender) return;
-      setVisibleTickets(tickets.slice(0, chunkNum));
-    }, [tickets]);
+      const filterTickets = () => {
+        switch (typesFilter) {
+          case 'cheap':
+            return ticketsSortedPrice;
+          case 'fast':
+            return ticketsSortedDuration;
+          default:
+            return ticketsSortedOptimal;
+        }
+      };
+      setFilteredTickets(filterTickets);
+    }, [tickets, typesFilter]);
 
     const handleShowMore = () => {
-      const count = visibleTickets.length;
-      const nextChunk = tickets.slice(count, count + chunkNum);
-      setVisibleTickets((prev) => [...prev, ...nextChunk]);
+      setChunkCount((prev) => prev + chunkNum);
     };
-
-    const hasMoreTickets = visibleTickets.length < tickets.length;
 
     return (
       <div className={_.ticket_list}>
-        {visibleTickets.map((item) => (
+        {filteredTickets.slice(0, chunkCount).map((item) => (
           <Component key={item.id} ticket={item} />
         ))}
-        {hasMoreTickets && (
+        {chunkCount < tickets.length && (
           <ShowMore
             className={_.show_more}
-            text="Показать еще 5 билетов!"
+            text={`Показать еще ${chunkNum} билетов!`}
             onShowMore={handleShowMore}
           />
         )}
@@ -93,6 +82,9 @@ const withTicketList = (Component) => {
   const mapState = (state) => ({
     typesFilter: typeSelectors.getType(state),
     tickets: ticketSelectors.getTickets(state),
+    ticketsSortedPrice: ticketSelectors.getTicketsByPrice(state),
+    ticketsSortedDuration: ticketSelectors.getTicketsByDuration(state),
+    ticketsSortedOptimal: ticketSelectors.getTicketsByOptimal(state),
   });
 
   const mapDispatch = (dispatch) => {

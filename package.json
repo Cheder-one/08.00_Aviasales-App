@@ -48,6 +48,7 @@
     "antd": "^5.12.5",
     "axios": "^1.6.4",
     "lodash": "^4.17.21",
+    "memoize-one": "^6.0.0",
     "nanoid": "^5.0.4",
     "normalize.css": "^8.0.1",
     "nth-check": "^2.1.1",

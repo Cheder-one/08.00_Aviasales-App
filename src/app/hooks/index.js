@@ -1,5 +1,5 @@
 import useFirstRender from './useFirstRender';
 import useOnlineStatus from './useOnlineStatus';
-import usePrevious from './usePrevious';
+import usePrev from './usePrev';
 
-export { useFirstRender, useOnlineStatus, usePrevious };
+export { useFirstRender, useOnlineStatus, usePrev };

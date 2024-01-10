@@ -17,23 +17,16 @@ function TicketCard({ ticket }) {
     setIsLoading(false);
   };
 
+  // TODO Заменить на скелетон
+
   return (
     <Card className={_.ticket}>
-      {/* {isLoading && <Loader css="min-height:inherit" />} */}
+      {/* {isLoading && <Loader />} */}
       <Wrapper isHidden={isLoading}>
-        <Row
-          className={_.row_title}
-          align="middle"
-          justify="space-between"
-        >
-          <Col className={_.price}>
-            {formatPrice(ticket.price, 'Р')}
-          </Col>
+        <Row className={_.row_title} align="middle" justify="space-between">
+          <Col className={_.price}>{formatPrice(ticket.price, 'Р')}</Col>
           <Col>
-            <CarrierLogo
-              carrier={ticket.carrier}
-              onLoad={handleImageLoaded}
-            />
+            <CarrierLogo carrier={ticket.carrier} onLoad={handleImageLoaded} />
           </Col>
         </Row>
 
