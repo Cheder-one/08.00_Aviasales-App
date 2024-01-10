@@ -1,7 +1,7 @@
 const UPDATED = 'type/updated';
 
 const initialState = {
-  entities: 'cheap',
+  entities: 'price',
 };
 
 const updated = (type) => ({

@@ -12,6 +12,7 @@ import _ from '../ticketCard/TicketCard.module.scss';
 const withTicketList = (Component) => {
   function TicketList({
     tickets,
+    isLoaded,
     chunkNum,
     typesFilter,
     ticketsSortedPrice,
@@ -19,21 +20,19 @@ const withTicketList = (Component) => {
     ticketsSortedOptimal,
   }) {
     const [chunkCount, setChunkCount] = useState(chunkNum);
-    const [filteredTickets, setFilteredTickets] = useState([]);
 
     useEffect(() => {
-      const filterTickets = () => {
-        switch (typesFilter) {
-          case 'cheap':
-            return ticketsSortedPrice;
-          case 'fast':
-            return ticketsSortedDuration;
-          default:
-            return ticketsSortedOptimal;
-        }
-      };
-      setFilteredTickets(filterTickets);
-    }, [tickets, typesFilter]);
+      switch (typesFilter) {
+        case 'price':
+          ticketsSortedPrice();
+          break;
+        case 'duration':
+          ticketsSortedDuration();
+          break;
+        default:
+          ticketsSortedOptimal();
+      }
+    }, [typesFilter, isLoaded]);
 
     const handleShowMore = () => {
       setChunkCount((prev) => prev + chunkNum);
@@ -41,7 +40,7 @@ const withTicketList = (Component) => {
 
     return (
       <div className={_.ticket_list}>
-        {filteredTickets.slice(0, chunkCount).map((item) => (
+        {tickets.slice(0, chunkCount).map((item) => (
           <Component key={item.id} ticket={item} />
         ))}
         {chunkCount < tickets.length && (
@@ -82,9 +81,10 @@ const withTicketList = (Component) => {
   const mapState = (state) => ({
     typesFilter: typeSelectors.getType(state),
     tickets: ticketSelectors.getTickets(state),
-    ticketsSortedPrice: ticketSelectors.getTicketsByPrice(state),
-    ticketsSortedDuration: ticketSelectors.getTicketsByDuration(state),
-    ticketsSortedOptimal: ticketSelectors.getTicketsByOptimal(state),
+    isLoaded: ticketSelectors.getTicketsLoadedStatus(state),
+    // ticketsSortedPrice: ticketSelectors.getTicketsByPrice(state),
+    // ticketsSortedDuration: ticketSelectors.getTicketsByDuration(state),
+    // ticketsSortedOptimal: ticketSelectors.getTicketsByOptimal(state),
   });
 
   const mapDispatch = (dispatch) => {

@@ -26,10 +26,10 @@ function TypeFilter() {
       buttonStyle="solid"
       onChange={handleTypeChange}
     >
-      <Radio.Button className={_.btn_label} value="cheap">
+      <Radio.Button className={_.btn_label} value="price">
         Самый дешевый
       </Radio.Button>
-      <Radio.Button className={_.btn_label} value="fast">
+      <Radio.Button className={_.btn_label} value="duration">
         Самый быстрый
       </Radio.Button>
       <Radio.Button className={_.btn_label} value="optimal">

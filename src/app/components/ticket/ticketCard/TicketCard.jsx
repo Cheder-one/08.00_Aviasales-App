@@ -5,7 +5,7 @@ import { Row, Col, Card } from 'antd';
 import { formatPrice, generateId } from '@/utils';
 
 import CarrierLogo from '../CarrierLogo';
-import { Loader, Wrapper } from '../../../ui';
+import { TicketSkeleton, Wrapper } from '../../../ui';
 
 import _ from './TicketCard.module.scss';
 import TicketSegment from './ticketSegment/TicketSegment';
@@ -14,14 +14,16 @@ function TicketCard({ ticket }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleImageLoaded = () => {
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
   };
 
   // TODO Заменить на скелетон
 
   return (
     <Card className={_.ticket}>
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <TicketSkeleton />}
       <Wrapper isHidden={isLoading}>
         <Row className={_.row_title} align="middle" justify="space-between">
           <Col className={_.price}>{formatPrice(ticket.price, 'Р')}</Col>
