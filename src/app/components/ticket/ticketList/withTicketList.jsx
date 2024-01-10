@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { bindActionCreators as bindActions } from 'redux';
 
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
@@ -8,39 +7,23 @@ import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
+import getSortedTickets from '../helpers/getSortedTickets';
+
+import { TicketListPropTypes } from './TicketList.propTypes';
 
 const withTicketList = (Component) => {
-  function TicketList({
-    tickets,
-    isLoaded,
-    chunkNum,
-    typesFilter,
-    ticketsSortedPrice,
-    ticketsSortedDuration,
-    ticketsSortedOptimal,
-  }) {
+  function TicketList({ tickets, chunkNum, typesFilter }) {
     const [chunkCount, setChunkCount] = useState(chunkNum);
-
-    useEffect(() => {
-      switch (typesFilter) {
-        case 'price':
-          ticketsSortedPrice();
-          break;
-        case 'duration':
-          ticketsSortedDuration();
-          break;
-        default:
-          ticketsSortedOptimal();
-      }
-    }, [typesFilter, isLoaded]);
 
     const handleShowMore = () => {
       setChunkCount((prev) => prev + chunkNum);
     };
 
+    const sortedTickets = getSortedTickets(tickets, typesFilter);
+
     return (
       <div className={_.ticket_list}>
-        {tickets.slice(0, chunkCount).map((item) => (
+        {sortedTickets.slice(0, chunkCount).map((item) => (
           <Component key={item.id} ticket={item} />
         ))}
         {chunkCount < tickets.length && (
@@ -55,42 +38,19 @@ const withTicketList = (Component) => {
   }
 
   TicketList.defaultProps = {
-    chunkNum: 5,
+    chunkNum: 50,
   };
 
-  TicketList.propTypes = {
-    tickets: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        carrier: PropTypes.string.isRequired,
-        segments: PropTypes.arrayOf(
-          PropTypes.shape({
-            origin: PropTypes.string.isRequired,
-            destination: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
-            stops: PropTypes.arrayOf(PropTypes.string),
-            duration: PropTypes.number.isRequired,
-          })
-        ).isRequired,
-      })
-    ).isRequired,
-    chunkNum: PropTypes.number,
-  };
+  TicketList.propTypes = TicketListPropTypes;
 
   const mapState = (state) => ({
     typesFilter: typeSelectors.getType(state),
     tickets: ticketSelectors.getTickets(state),
-    isLoaded: ticketSelectors.getTicketsLoadedStatus(state),
-    // ticketsSortedPrice: ticketSelectors.getTicketsByPrice(state),
-    // ticketsSortedDuration: ticketSelectors.getTicketsByDuration(state),
-    // ticketsSortedOptimal: ticketSelectors.getTicketsByOptimal(state),
   });
 
   const mapDispatch = (dispatch) => {
     const types = bindActions(typeActions, dispatch);
     const tickets = bindActions(ticketActions, dispatch);
-
     return { ...tickets, ...types };
   };
 

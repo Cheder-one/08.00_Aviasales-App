@@ -1,5 +1,5 @@
 import { Radio } from 'antd';
-import { bindActionCreators as combine } from 'redux';
+import { bindActionCreators as binActions } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
@@ -12,7 +12,7 @@ function TypeFilter() {
   const type = useSelector(getType);
   const dispatch = useDispatch();
 
-  const { typeUpdated } = combine(typeActions, dispatch);
+  const { typeUpdated } = binActions(typeActions, dispatch);
 
   const handleTypeChange = ({ target }) => {
     const { value } = target;

@@ -2,9 +2,10 @@ import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 
 import { calcStartEndTrip } from '@/utils';
-import { formatStops, formatDuration } from '@/utils/ticketCard';
 
 import _ from '../TicketCard.module.scss';
+import formatStops from '../../helpers/formatStops';
+import formatDuration from '../../helpers/formatDuration';
 
 function TicketSegment({ segment }) {
   const { date, origin, duration, destination, stops } = segment;
@@ -15,9 +16,7 @@ function TicketSegment({ segment }) {
         <Row className={_.header}>
           {origin} – {destination}
         </Row>
-        <Row className={_.body}>
-          {calcStartEndTrip(date, duration)}
-        </Row>
+        <Row className={_.body}>{calcStartEndTrip(date, duration)}</Row>
       </Col>
       <Col span={8}>
         <Row className={_.header}>В пути</Row>

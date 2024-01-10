@@ -19,8 +19,6 @@ function TicketCard({ ticket }) {
     }, 400);
   };
 
-  // TODO Заменить на скелетон
-
   return (
     <Card className={_.ticket}>
       {isLoading && <TicketSkeleton />}

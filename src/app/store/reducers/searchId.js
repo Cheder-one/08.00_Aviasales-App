@@ -21,9 +21,10 @@ const searchReducer = (state = initialState, action) => {
 };
 
 export const searchActions = {
-  searchIdSet: () => async (dispatch) => {
+  searchIdSet: (callback) => async (dispatch) => {
     const searchId = await fetchSearchId();
-    dispatch(set(searchId));
+    await dispatch(set(searchId));
+    callback();
   },
 };
 

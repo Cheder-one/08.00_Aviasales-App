@@ -1,45 +1,33 @@
-import { useEffect } from 'react';
 import { Row, Col, FloatButton } from 'antd';
 import { bindActionCreators as bindActions } from 'redux';
 import { connect } from 'react-redux';
+import { useEffect } from 'react';
 
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { searchActions, searchSelectors } from '@/reducers/searchId';
 
 import _ from './App.module.scss';
 import { Loader, Logo } from './app/ui';
-import { useFirstRender } from './app/hooks';
 import { TypeFilter, TransferFilter } from './app/components/filters';
 import { TicketCard, withTicketList } from './app/components/ticket';
 
-const { getTicketsLoadingStatus } = ticketSelectors;
-const { getSearchId } = searchSelectors;
+function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
+  // useEffect(() => {
+  //   const callback = () => {
+  //     ticketsLoaded();
+  //   };
+  //   searchIdSet(callback);
+  // }, []);
 
-function App({
-  searchId,
-  isChunkLoaded,
-  searchIdSet,
-  ticketsLoaded,
-}) {
-  const isFirstRender = useFirstRender();
-
-  useEffect(() => {
-    searchIdSet();
-  }, []);
-
-  useEffect(() => {
-    if (isFirstRender) return;
-    ticketsLoaded();
-  }, [searchId]);
-
-  // TODO Реализовать фильтрацию билетов
+  // TODO Реализовать фильтрацию трансферов
+  // TODO Реализовать лоадер загрузки
   // TODO Реализовать "Рейсов, подходящих под заданные фильтры, не найдено"
-  // TODO Реализовать запись и отображение ошибки при неудачной загрузке
-  // TODO ?Загрузить 10к и сделать лоадер.
+  // TODO Реализовать Alert при отсутствии интернета
+  // TODO Заменить useSelector/Dispatch на connect
 
   const TicketList = withTicketList(TicketCard);
 
-  return isChunkLoaded ? (
+  return !isChunkLoaded ? (
     <>
       <Logo />
       <Row className={_.main_row} justify="center" gutter={20}>
@@ -54,13 +42,13 @@ function App({
       <FloatButton.BackTop />
     </>
   ) : (
-    <Loader />
+    '' && <Loader />
   );
 }
 
 const mapState = (state) => ({
-  searchId: getSearchId(state),
-  isChunkLoaded: getTicketsLoadingStatus(state),
+  searchId: searchSelectors.getSearchId(state),
+  isChunkLoaded: ticketSelectors.getTicketsChunkStatus(state),
 });
 
 const mapDispatch = (dispatch) => {

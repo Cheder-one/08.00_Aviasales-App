@@ -1,57 +1,25 @@
 /* eslint-disable consistent-return */
 import { Checkbox, Card } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators as combine } from 'redux';
-import { useEffect, useRef } from 'react';
-import { isEqual, last, without } from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators as bindActions } from 'redux';
 
 import {
   transferActions,
   transferSelectors,
 } from '@/reducers/filters/transfers';
-import {
-  checkboxMap,
-  getAllIds,
-} from '@/utils/transfersFilter/checkboxMap';
-import { CheckboxMod } from '@/ui/index';
+
+import { usePrev } from '../../../hooks';
+import { CheckboxMod } from '../../../ui';
 
 import _ from './TransferFilter.module.scss';
+import { checkboxMap } from './helpers/checkboxMap';
+import handleCheckboxChange from './helpers/processCheckboxChange';
 
-const { getTransfers } = transferSelectors;
+function TransferFilter({ transfers, checkboxUpdated }) {
+  const prevTransfers = usePrev(transfers);
 
-function TransferFilter() {
-  const transfers = useSelector(getTransfers);
-  const dispatch = useDispatch();
-  const prevTransfers = useRef();
-
-  const { checkboxChanged } = combine(transferActions, dispatch);
-
-  useEffect(() => {
-    prevTransfers.current = transfers;
-  }, [transfers]);
-
-  const handleCheckboxChange = (ids) => {
-    const { current: prevFtrs } = prevTransfers;
-
-    const isAllExist = ids.includes('all');
-    const isPrevAllExist = prevFtrs.includes('all');
-    const isCurrClick = (id) => isEqual(last(ids), id);
-
-    const diffLen = checkboxMap.length - 1 === ids.length;
-    const isManualAllSelected = diffLen && !isAllExist;
-    const isManualAllRuined = diffLen && isAllExist;
-
-    if (isCurrClick('all')) {
-      checkboxChanged(getAllIds());
-    } else if (isPrevAllExist && !isAllExist) {
-      checkboxChanged([]);
-    } else if (isManualAllSelected) {
-      checkboxChanged(getAllIds());
-    } else if (isManualAllRuined) {
-      checkboxChanged(without(ids, 'all'));
-    } else {
-      checkboxChanged(ids);
-    }
+  const onCheckboxChange = (ids) => {
+    handleCheckboxChange(ids, prevTransfers, checkboxUpdated);
   };
 
   return (
@@ -59,16 +27,12 @@ function TransferFilter() {
       <h3 className={_.title}>Количество пересадок</h3>
 
       <Checkbox.Group
-        className={_.checkbox_group}
-        onChange={handleCheckboxChange}
         value={transfers}
+        className={_.checkbox_group}
+        onChange={onCheckboxChange}
       >
         {checkboxMap.map((item) => (
-          <CheckboxMod
-            key={item.id}
-            value={item.id}
-            className={_.checkbox}
-          >
+          <CheckboxMod key={item.id} value={item.id} className={_.checkbox}>
             {item.value}
           </CheckboxMod>
         ))}
@@ -77,4 +41,14 @@ function TransferFilter() {
   );
 }
 
-export default TransferFilter;
+const mapState = (state) => ({
+  transfers: transferSelectors.getTransfers(state),
+});
+
+const mapDispatch = (dispatch) => {
+  const transfers = bindActions(transferActions, dispatch);
+  return { ...transfers };
+};
+
+const ConnectedTransferFilter = connect(mapState, mapDispatch)(TransferFilter);
+export default ConnectedTransferFilter;

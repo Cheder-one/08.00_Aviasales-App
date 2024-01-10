@@ -19,7 +19,7 @@ const transfersReducer = (state = initialState, action) => {
 };
 
 export const transferActions = {
-  checkboxChanged: (ids) => {
+  checkboxUpdated: (ids) => {
     return updated(ids);
   },
 };

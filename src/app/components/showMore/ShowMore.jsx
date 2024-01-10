@@ -18,10 +18,13 @@ function ShowMore({ text, className, onShowMore }) {
 
 ShowMore.propTypes = {
   text: PropTypes.string,
+  className: PropTypes.string,
+  onShowMore: PropTypes.func.isRequired,
 };
 
 ShowMore.defaultProps = {
   text: 'Показать еще',
+  className: '',
 };
 
 export default ShowMore;
