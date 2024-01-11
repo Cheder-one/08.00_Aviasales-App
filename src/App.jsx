@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, FloatButton } from 'antd';
 import { bindActionCreators as bindActions } from 'redux';
-import { connect } from 'react-redux';
-import { useEffect } from 'react';
 
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { searchActions, searchSelectors } from '@/reducers/searchId';
@@ -12,12 +12,12 @@ import { TypeFilter, TransferFilter } from './app/components/filters';
 import { TicketCard, withTicketList } from './app/components/ticket';
 
 function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
-  // useEffect(() => {
-  //   const callback = () => {
-  //     ticketsLoaded();
-  //   };
-  //   searchIdSet(callback);
-  // }, []);
+  useEffect(() => {
+    const callback = () => {
+      ticketsLoaded();
+    };
+    searchIdSet(callback);
+  }, []);
 
   // TODO Реализовать фильтрацию трансферов
   // TODO Реализовать лоадер загрузки
@@ -27,7 +27,7 @@ function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
 
   const TicketList = withTicketList(TicketCard);
 
-  return !isChunkLoaded ? (
+  return isChunkLoaded ? (
     <>
       <Logo />
       <Row className={_.main_row} justify="center" gutter={20}>

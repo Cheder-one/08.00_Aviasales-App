@@ -1,25 +1,27 @@
-import { connect } from 'react-redux';
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators as bindActions } from 'redux';
 
-import { typeActions, typeSelectors } from '@/reducers/filters/type';
+import { transferSelectors } from '@/reducers/filters/transfers';
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
+import { typeActions, typeSelectors } from '@/reducers/filters/type';
 
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
-import getSortedTickets from '../helpers/getSortedTickets';
+import { getFilteredByTransfers, getSortedByType } from '../helpers';
 
 import { TicketListPropTypes } from './TicketList.propTypes';
 
 const withTicketList = (Component) => {
-  function TicketList({ tickets, chunkNum, typesFilter }) {
+  function TicketList({ tickets, chunkNum, typesFilter, transferFilter }) {
     const [chunkCount, setChunkCount] = useState(chunkNum);
 
     const handleShowMore = () => {
       setChunkCount((prev) => prev + chunkNum);
     };
 
-    const sortedTickets = getSortedTickets(tickets, typesFilter);
+    const sortedTickets = getSortedByType(tickets, typesFilter);
+    const filteredTickets = getFilteredByTransfers(tickets, transferFilter);
 
     return (
       <div className={_.ticket_list}>
@@ -38,14 +40,15 @@ const withTicketList = (Component) => {
   }
 
   TicketList.defaultProps = {
-    chunkNum: 50,
+    chunkNum: 5,
   };
 
   TicketList.propTypes = TicketListPropTypes;
 
   const mapState = (state) => ({
-    typesFilter: typeSelectors.getType(state),
     tickets: ticketSelectors.getTickets(state),
+    typesFilter: typeSelectors.getType(state),
+    transferFilter: transferSelectors.getTransfers(state),
   });
 
   const mapDispatch = (dispatch) => {

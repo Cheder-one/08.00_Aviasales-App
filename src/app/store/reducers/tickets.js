@@ -53,7 +53,8 @@ const ticketsLoaded = () => async (dispatch, getState) => {
   try {
     const searchId = getState().search.entities;
     let data = { stop: false };
-    while (!data.stop) {
+    let i = 1;
+    while (i--) {
       try {
         data = await ticketsService.fetch(searchId);
         dispatch(received(data));

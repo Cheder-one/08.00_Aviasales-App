@@ -1,4 +1,4 @@
-/* eslint-disable consistent-return */
+import PropTypes from 'prop-types';
 import { Checkbox, Card } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators as bindActions } from 'redux';
@@ -40,6 +40,11 @@ function TransferFilter({ transfers, checkboxUpdated }) {
     </Card>
   );
 }
+
+TransferFilter.propTypes = {
+  transfers: PropTypes.arrayOf(PropTypes.string, PropTypes.string).isRequired,
+  checkboxUpdated: PropTypes.func.isRequired,
+};
 
 const mapState = (state) => ({
   transfers: transferSelectors.getTransfers(state),
