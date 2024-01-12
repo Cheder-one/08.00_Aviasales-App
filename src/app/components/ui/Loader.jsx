@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 function Loader({ css }) {
   const StyledLoader = styled(Flex)`
-    height: 100%;
+    height: 100vh;
     ${css}
   `;
 

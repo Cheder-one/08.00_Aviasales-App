@@ -3,28 +3,6 @@
 @import './reset';
 @import './mixins';
 
-body {
-  height: 100vh;
+#root {
   background: #f3f7fa;
 }
-
-#root {
-  height: 100vh;
-}
-
-// .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
-//   .ant-checkbox-checked:not(.ant-checkbox-disabled)
-//   .ant-checkbox-inner {
-//   background-color: #fff;
-//   // border-color: #9abbce;
-//   border: 1px solid #2196f3;
-//   background-clip: border-box;
-// }
-
-// .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
-//   .ant-checkbox-checked:not(.ant-checkbox-disabled)
-//   .ant-checkbox-inner {
-//   background-color: #fff;
-//   border: 1px solid #2196f3;
-//   background-clip: border-box;
-// }
