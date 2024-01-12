@@ -1,34 +1,35 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-
 import fetchSearchId from '../../service/fetchSearchId';
+
+const SET = 'searchId/set';
 
 const initialState = {
   entities: null,
 };
 
-const searchSlice = createSlice({
-  name: 'search',
-  initialState,
-  reducers: {
-    set: (state, action) => {
-      state.entities = action.payload;
-    },
-  },
+const set = (searchId) => ({
+  type: SET,
+  payload: searchId,
 });
 
-const { reducer: searchReducer } = searchSlice;
-const { set } = searchSlice.actions;
+const searchReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET:
+      return { ...state, entities: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const searchActions = {
-  searchIdWasSet: () => async (dispatch) => {
+  searchIdSet: (callback) => async (dispatch) => {
     const searchId = await fetchSearchId();
-    dispatch(set(searchId));
+    await dispatch(set(searchId));
+    callback();
   },
 };
 
 export const searchSelectors = {
-  getSearchId: () => (state) => state.search.entities,
+  getSearchId: (state) => state.search.entities,
 };
 
 export default searchReducer;

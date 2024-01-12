@@ -32,7 +32,14 @@ module.exports = {
     '@emotion',
   ],
   ignorePatterns: ['node_modules', 'dist', 'build'],
-  overrides: [],
+  overrides: [
+    {
+      files: ['./src/app/store/**/*.js'],
+      rules: {
+        'default-param-last': 'off',
+      },
+    },
+  ],
 
   // 0 - off 1 - warn 2 - error
   rules: {
@@ -52,7 +59,6 @@ module.exports = {
       'warn',
       { extensions: ['.js', '.jsx'] },
     ],
-    // 'import/no-unresolved': ['error', { caseSensitive: false }],
     'no-unused-vars': [
       'warn',
       {

@@ -8,8 +8,8 @@ const ticketsService = {
       params: { searchId },
     });
     const tickets = addIdEachItem(data.tickets);
-    console.log(tickets);
-    return tickets;
+    // console.log(data);
+    return { ...data, tickets };
   },
 };
 

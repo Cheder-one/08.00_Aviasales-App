@@ -1,74 +1,89 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+/* eslint-disable no-await-in-loop */
 
 import ticketsService from '../../service/tickets.service';
-import { createNewErr } from '../../utils';
 
 import { errorActions } from './errors';
 
-const { setErrors } = errorActions;
+const { setError } = errorActions;
+
+const REQUESTED = 'tickets/requested';
+const RECEIVED = 'tickets/receivedChunk';
+const REQUEST_FAILED = 'tickets/requestFailed';
 
 const initialState = {
   entities: [],
-  isLoading: true,
+  chunkCounter: 0,
+  isDataLoaded: false,
 };
 
-const ticketsSlice = createSlice({
-  name: 'tickets',
-  initialState,
-  reducers: {
-    received(state, action) {
-      state.entities.push(...action.payload);
-      state.isLoading = false;
-    },
-    sortedByPrice(state) {
-      //
-    },
-    sortedByDuration(state) {
-      //
-    },
-    sortedByOptimal(state) {
-      //
-    },
-
-    ticketsRequested(state) {
-      state.isLoading = true;
-    },
-    ticketsRequestFailed(state) {
-      state.isLoading = false;
-    },
-  },
+const received = (data) => ({
+  type: RECEIVED,
+  payload: data,
 });
 
-// prettier-ignore
-const { received, ticketsRequested, ticketsRequestFailed } = ticketsSlice.actions;
-const { reducer: ticketsReducer } = ticketsSlice;
+const requested = () => {
+  return { type: REQUESTED };
+};
+const requestFailed = () => {
+  return { type: REQUEST_FAILED };
+};
 
-const ticketsChunkLoaded = () => async (dispatch, getState) => {
-  dispatch(ticketsRequested());
-  try {
-    const searchId = getState().search.entities;
-    const data = await ticketsService.fetch(searchId);
-    dispatch(received(data));
-  } catch ({ message }) {
-    const info = 'Ошибка при получении билетов';
-
-    dispatch(ticketsRequestFailed());
-    dispatch(setErrors({ message, info }));
-    throw createNewErr(message, info);
+const ticketsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case RECEIVED:
+      if (action.payload.stop) {
+        return { ...state, isDataLoaded: true };
+      }
+      return {
+        ...state,
+        entities: [...state.entities, ...action.payload.tickets],
+        chunkCounter: state.chunkCounter + 1,
+      };
+    case REQUESTED:
+      return { ...state, chunkCounter: 0 };
+    case REQUEST_FAILED:
+      return { ...state, chunkCounter: state.chunkCounter + 1 };
+    default:
+      return state;
   }
 };
 
-const allTicketsLoaded = () => () => {};
+const ticketsLoaded = () => async (dispatch, getState) => {
+  dispatch(requested());
+  try {
+    const searchId = getState().search.entities;
+    let data = { stop: false };
+    // const i = 1;
+    while (!data.stop) {
+      try {
+        data = await ticketsService.fetch(searchId);
+        dispatch(received(data));
+      } catch (error) {
+        if (error?.response?.status === 500) {
+          console.warn(
+            'Ошибка сервера, продолжаем подключение...',
+            error.message
+          );
+        }
+      }
+    }
+  } catch ({ message }) {
+    const info = 'Ошибка при получении билетов';
+    dispatch(requestFailed());
+    dispatch(setError({ message, info }));
+
+    throw new Error([message, info].join(' | '));
+  }
+};
 
 export const ticketActions = {
-  ticketsChunkLoaded,
-  allTicketsLoaded,
+  ticketsLoaded,
 };
 
 export const ticketSelectors = {
-  getTickets: () => (state) => state.tickets.entities,
-  getTicketsLoadingStatus: () => (state) => state.tickets.isLoading,
+  getTickets: (state) => state.tickets.entities,
+  getTicketsChunkCounter: (state) => state.tickets.chunkCounter,
+  getTicketsLoadedStatus: (state) => state.tickets.isDataLoaded,
 };
 
 export default ticketsReducer;

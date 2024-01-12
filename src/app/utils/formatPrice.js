@@ -7,6 +7,7 @@ const formatNum = (number, symbol) => {
 
   const formattedNumber = formatter.format(number);
 
+  // prettier-ignore
   return symbol
     ? formattedNumber.replace('₽', symbol)
     : formattedNumber;

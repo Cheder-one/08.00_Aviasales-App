@@ -1,31 +1,31 @@
-/* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+const UPDATED = 'transfers/updated';
 
 const initialState = {
-  entities: [],
+  entities: ['all', '0', '1', '2', '3'],
 };
 
-const transfersSlice = createSlice({
-  name: 'transfers',
-  initialState,
-  reducers: {
-    updated(state, action) {
-      state.entities = action.payload;
-    },
-  },
+const updated = (ids) => ({
+  type: UPDATED,
+  payload: ids,
 });
 
-const { reducer: transfersReducer } = transfersSlice;
-const { updated } = transfersSlice.actions;
+const transfersReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATED:
+      return { ...state, entities: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const transferActions = {
-  checkboxChanged: (arrIds) => {
-    return updated(arrIds);
+  checkboxUpdated: (ids) => {
+    return updated(ids);
   },
 };
 
 export const transferSelectors = {
-  getTransfers: () => (state) => state.filters.transfers.entities,
+  getTransfers: (state) => state.filters.transfers.entities,
 };
 
 export default transfersReducer;
