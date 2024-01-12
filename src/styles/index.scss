@@ -4,12 +4,12 @@
 @import './mixins';
 
 body {
+  height: 100vh;
   background: #f3f7fa;
 }
 
 #root {
   height: 100vh;
-  background: #f3f7fa;
 }
 
 // .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
