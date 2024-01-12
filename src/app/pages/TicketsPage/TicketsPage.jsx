@@ -14,7 +14,7 @@ import { TransferFilter, TypeFilter } from '../../components/modules/filters';
 import _ from './TicketsPage.module.scss';
 import TicketsPageHeader from './TicketsPageHeader';
 
-function TicketsPage({ chunkCounter, searchIdSet, ticketsLoaded }) {
+function TicketsPage({ isDataReceiving, searchIdSet, ticketsLoaded }) {
   useEffect(() => {
     const callback = () => {
       ticketsLoaded();
@@ -24,9 +24,9 @@ function TicketsPage({ chunkCounter, searchIdSet, ticketsLoaded }) {
 
   const TicketList = withTicketList(TicketCard);
 
-  return chunkCounter ? (
+  return isDataReceiving ? (
     <>
-      <TicketsPageHeader loadMax={15} loadNow={chunkCounter} />
+      <TicketsPageHeader />
       <Row className={_.main_row} justify="center" gutter={20}>
         <Col>
           <TransferFilter />
@@ -44,18 +44,15 @@ function TicketsPage({ chunkCounter, searchIdSet, ticketsLoaded }) {
 }
 
 TicketsPage.propTypes = {
-  chunkCounter: PropTypes.number,
   searchIdSet: PropTypes.func.isRequired,
   ticketsLoaded: PropTypes.func.isRequired,
 };
 
-TicketsPage.defaultProps = {
-  chunkCounter: 0,
-};
+TicketsPage.defaultProps = {};
 
 const mapState = (state) => ({
   searchId: searchSelectors.getSearchId(state),
-  chunkCounter: ticketSelectors.getTicketsChunkCounter(state),
+  isDataReceiving: ticketSelectors.getTicketsReceivingStatus(state),
 });
 
 const mapDispatch = (dispatch) => {

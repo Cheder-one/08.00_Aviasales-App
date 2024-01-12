@@ -8,12 +8,12 @@ import { Logo } from '../../components/ui';
 import { ticketSelectors } from '../../store/reducers/tickets/tickets';
 import { errorSelectors } from '../../store/reducers/errors';
 
-function TicketsPageHeader({ loadNow, loadMax, isDataLoaded, errors }) {
+function TicketsPageHeader({ chunkCounter, loadMax, isDataLoaded, errors }) {
   return (
     <>
       <ProgressBar
         animated
-        now={loadNow}
+        now={chunkCounter}
         max={loadMax}
         hidden={isDataLoaded}
         variant={errors.length ? 'danger' : 'primary'}
@@ -25,21 +25,22 @@ function TicketsPageHeader({ loadNow, loadMax, isDataLoaded, errors }) {
 }
 
 TicketsPageHeader.propTypes = {
-  loadNow: PropTypes.number,
+  chunkCounter: PropTypes.number,
   loadMax: PropTypes.number,
   isDataLoaded: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 TicketsPageHeader.defaultProps = {
-  loadNow: 0,
-  loadMax: 0,
+  loadMax: 15,
   errors: null,
+  chunkCounter: 0,
   isDataLoaded: false,
 };
 
 const mapState = (state) => ({
   errors: errorSelectors.getErrors(state),
+  chunkCounter: ticketSelectors.getTicketsChunkCounter(state),
   isDataLoaded: ticketSelectors.getTicketsLoadedStatus(state),
 });
 

@@ -1,5 +1,3 @@
-import useFirstRender from './useFirstRender';
-import useOnlineStatus from './useOnlineStatus';
-import usePrev from './usePrev';
-
-export { useFirstRender, useOnlineStatus, usePrev };
+export { default as useFirstRender } from './useFirstRender';
+export { default as useOnlineStatus } from './useOnlineStatus';
+export { default as usePrev } from './usePrev';

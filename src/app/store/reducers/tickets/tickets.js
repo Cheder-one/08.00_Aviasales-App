@@ -11,6 +11,7 @@ const initialState = {
   entities: [],
   chunkCounter: 0,
   isDataLoaded: false,
+  isDataReceiving: false,
 };
 
 const received = (data) => ({
@@ -35,11 +36,12 @@ const ticketsReducer = (state = initialState, action) => {
         ...state,
         entities: [...state.entities, ...action.payload.tickets],
         chunkCounter: state.chunkCounter + 1,
+        isDataReceiving: true,
       };
     case REQUESTED:
-      return { ...state, chunkCounter: 0 };
+      return { ...state, isDataReceiving: true };
     case REQUEST_FAILED:
-      return { ...state, chunkCounter: state.chunkCounter + 1 };
+      return { ...state, isDataReceiving: false };
     default:
       return state;
   }
@@ -50,8 +52,6 @@ export const dataReceived = (data) => (dispatch) => {
 };
 
 const ticketsLoaded = () => async (dispatch, getState) => {
-  dispatch(requested());
-
   try {
     const searchId = getState().search.entities;
 
@@ -62,6 +62,7 @@ const ticketsLoaded = () => async (dispatch, getState) => {
         handleOfflineError(dispatch);
         break;
       }
+      dispatch(requested());
     }
   } catch (error) {
     dispatch(requestFailed());
@@ -77,6 +78,7 @@ export const ticketSelectors = {
   getTickets: (state) => state.tickets.entities,
   getTicketsChunkCounter: (state) => state.tickets.chunkCounter,
   getTicketsLoadedStatus: (state) => state.tickets.isDataLoaded,
+  getTicketsReceivingStatus: (state) => state.tickets.isDataReceiving,
 };
 
 export default ticketsReducer;
