@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators as bindActions } from 'redux';
 
 import { transferSelectors } from '@/reducers/filters/transfers';
-import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
+import { ticketActions, ticketSelectors } from '@/reducers/tickets/tickets';
 
 import { NoMatching } from '../../../ui';
 import ShowMore from '../../showMore/ShowMore';

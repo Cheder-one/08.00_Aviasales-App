@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 
 import errorReducer from '../reducers/errors';
 import searchReducer from '../reducers/searchId';
-import ticketsReducer from '../reducers/tickets';
-import typeReducer from '../reducers/filters/type';
 import transfersReducer from '../reducers/filters/transfers';
 import counterReducer from '../reducers/counter';
+import ticketsReducer from '../reducers/tickets/tickets';
+import typeReducer from '../reducers/filters/type';
 
 const rootReducer = combineReducers({
   search: searchReducer,

@@ -12,21 +12,23 @@ const set = (errors) => ({
 const errorReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET:
-      return { ...state, entities: action.payload };
+      // prettier-ignore
+      return { 
+        ...state, 
+        entities: [...state.entities, action.payload] };
     default:
       return state;
   }
 };
 
 export const errorActions = {
-  setError: (err) => (dispatch) => {
-    const { message, info } = err;
-    dispatch(set({ message, info }));
+  setErrors: (err) => (dispatch) => {
+    dispatch(set(err));
   },
 };
 
 export const errorSelectors = {
-  getError: (state) => state.errors.entities,
+  getErrors: (state) => state.errors.entities,
 };
 
 export default errorReducer;

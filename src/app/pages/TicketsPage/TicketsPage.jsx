@@ -5,7 +5,7 @@ import { Row, Col, FloatButton } from 'antd';
 import { bindActionCreators as bindActions } from 'redux';
 
 import { searchSelectors, searchActions } from '@/reducers/searchId';
-import { ticketSelectors, ticketActions } from '@/reducers/tickets';
+import { ticketActions, ticketSelectors } from '@/reducers/tickets/tickets';
 
 import { Loader } from '../../components/ui';
 import { TicketCard, withTicketList } from '../../components/modules/ticket';

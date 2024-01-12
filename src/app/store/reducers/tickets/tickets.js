@@ -1,10 +1,7 @@
 /* eslint-disable no-await-in-loop */
 
-import ticketsService from '../../service/tickets.service';
-
-import { errorActions } from './errors';
-
-const { setError } = errorActions;
+import { handleError, handleOfflineError } from './helpers';
+import fetchData from './helpers/fetchData';
 
 const REQUESTED = 'tickets/requested';
 const RECEIVED = 'tickets/receivedChunk';
@@ -48,31 +45,27 @@ const ticketsReducer = (state = initialState, action) => {
   }
 };
 
+export const dataReceived = (data) => (dispatch) => {
+  dispatch(received(data));
+};
+
 const ticketsLoaded = () => async (dispatch, getState) => {
   dispatch(requested());
+
   try {
     const searchId = getState().search.entities;
-    let data = { stop: false };
-    // const i = 1;
-    while (!data.stop) {
-      try {
-        data = await ticketsService.fetch(searchId);
-        dispatch(received(data));
-      } catch (error) {
-        if (error?.response?.status === 500) {
-          console.warn(
-            'Ошибка сервера, продолжаем подключение...',
-            error.message
-          );
-        }
+
+    while (!getState().tickets.isDataLoaded) {
+      await fetchData(dispatch, searchId);
+
+      if (!navigator.onLine) {
+        handleOfflineError(dispatch);
+        break;
       }
     }
-  } catch ({ message }) {
-    const info = 'Ошибка при получении билетов';
+  } catch (error) {
     dispatch(requestFailed());
-    dispatch(setError({ message, info }));
-
-    throw new Error([message, info].join(' | '));
+    handleError(dispatch, error);
   }
 };
 
