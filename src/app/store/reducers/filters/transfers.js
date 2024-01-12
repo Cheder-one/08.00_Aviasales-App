@@ -1,7 +1,7 @@
 const UPDATED = 'transfers/updated';
 
 const initialState = {
-  entities: [],
+  entities: ['all', '0', '1', '2', '3'],
 };
 
 const updated = (ids) => ({

@@ -2,7 +2,7 @@ import { Alert } from 'antd';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
-import { useOnlineStatus } from '../hooks';
+import useOnlineStatus from '../../hooks/useOnlineStatus';
 
 const ConnectionAlert = styled(Alert)`
   position: absolute;

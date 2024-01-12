@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Row, Col, FloatButton } from 'antd';
 import { bindActionCreators as bindActions } from 'redux';
 
-import { ticketActions, ticketSelectors } from '@/reducers/tickets';
-import { searchActions, searchSelectors } from '@/reducers/searchId';
+import { searchSelectors, searchActions } from '@/reducers/searchId';
+import { ticketSelectors, ticketActions } from '@/reducers/tickets';
 
 import _ from './App.module.scss';
-import { Loader, Logo } from './app/ui';
-import { TypeFilter, TransferFilter } from './app/components/filters';
-import { TicketCard, withTicketList } from './app/components/ticket';
+import { TicketCard, withTicketList } from './app/components/modules/ticket';
+import { TransferFilter, TypeFilter } from './app/components/modules/filters';
+import { Loader, Logo } from './app/components/ui';
 
 function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
   useEffect(() => {
@@ -19,10 +19,7 @@ function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
     searchIdSet(callback);
   }, []);
 
-  // TODO Реализовать фильтрацию трансферов
   // TODO Реализовать лоадер загрузки
-  // TODO Реализовать "Рейсов, подходящих под заданные фильтры, не найдено"
-  // TODO Реализовать Alert при отсутствии интернета
   // TODO Заменить useSelector/Dispatch на connect
 
   const TicketList = withTicketList(TicketCard);
@@ -42,7 +39,7 @@ function App({ isChunkLoaded, searchIdSet, ticketsLoaded }) {
       <FloatButton.BackTop />
     </>
   ) : (
-    '' && <Loader />
+    <Loader />
   );
 }
 

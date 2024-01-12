@@ -8,8 +8,8 @@ import {
   transferSelectors,
 } from '@/reducers/filters/transfers';
 
-import { usePrev } from '../../../hooks';
 import { CheckboxMod } from '../../../ui';
+import usePrev from '../../../../hooks/usePrev';
 
 import _ from './TransferFilter.module.scss';
 import { checkboxMap } from './helpers/checkboxMap';

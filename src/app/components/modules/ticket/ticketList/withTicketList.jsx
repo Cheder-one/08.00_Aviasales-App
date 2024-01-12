@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators as bindActions } from 'redux';
+import { Empty } from 'antd';
 
 import { transferSelectors } from '@/reducers/filters/transfers';
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
@@ -20,15 +21,19 @@ const withTicketList = (Component) => {
       setChunkCount((prev) => prev + chunkNum);
     };
 
-    const sortedTickets = getSortedByType(tickets, typesFilter);
     const filteredTickets = getFilteredByTransfers(tickets, transferFilter);
+    const sortedTickets = getSortedByType(filteredTickets, typesFilter);
 
     return (
       <div className={_.ticket_list}>
-        {sortedTickets.slice(0, chunkCount).map((item) => (
-          <Component key={item.id} ticket={item} />
-        ))}
-        {chunkCount < tickets.length && (
+        {sortedTickets.length ? (
+          sortedTickets
+            .slice(0, chunkCount)
+            .map((item) => <Component key={item.id} ticket={item} />)
+        ) : (
+          <Empty description="Рейсов, подходящих под заданные фильтры, не найдено" />
+        )}
+        {chunkCount < sortedTickets.length && (
           <ShowMore
             className={_.show_more}
             text={`Показать еще ${chunkNum} билетов!`}
@@ -40,7 +45,7 @@ const withTicketList = (Component) => {
   }
 
   TicketList.defaultProps = {
-    chunkNum: 5,
+    chunkNum: 100,
   };
 
   TicketList.propTypes = TicketListPropTypes;
