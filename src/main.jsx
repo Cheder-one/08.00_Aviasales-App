@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import './styles/index.scss';
 import App from './App';
+import './styles/index.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import initiateStore from './app/store/root/store';
 
 const store = initiateStore();

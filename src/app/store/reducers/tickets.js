@@ -12,7 +12,7 @@ const REQUEST_FAILED = 'tickets/requestFailed';
 
 const initialState = {
   entities: [],
-  isChunkLoaded: false,
+  chunkCounter: 0,
   isDataLoaded: false,
 };
 
@@ -37,12 +37,12 @@ const ticketsReducer = (state = initialState, action) => {
       return {
         ...state,
         entities: [...state.entities, ...action.payload.tickets],
-        isChunkLoaded: true,
+        chunkCounter: state.chunkCounter + 1,
       };
     case REQUESTED:
-      return { ...state, isChunkLoaded: false };
+      return { ...state, chunkCounter: 0 };
     case REQUEST_FAILED:
-      return { ...state, isChunkLoaded: true };
+      return { ...state, chunkCounter: state.chunkCounter + 1 };
     default:
       return state;
   }
@@ -53,8 +53,8 @@ const ticketsLoaded = () => async (dispatch, getState) => {
   try {
     const searchId = getState().search.entities;
     let data = { stop: false };
-    let i = 1;
-    while (i--) {
+    const i = 1;
+    while (!data.stop) {
       try {
         data = await ticketsService.fetch(searchId);
         dispatch(received(data));
@@ -79,7 +79,7 @@ export const ticketActions = {
 
 export const ticketSelectors = {
   getTickets: (state) => state.tickets.entities,
-  getTicketsChunkStatus: (state) => state.tickets.isChunkLoaded,
+  getTicketsChunkCounter: (state) => state.tickets.chunkCounter,
   getTicketsLoadedStatus: (state) => state.tickets.isDataLoaded,
 };
 

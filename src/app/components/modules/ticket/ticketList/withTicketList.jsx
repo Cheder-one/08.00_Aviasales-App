@@ -10,10 +10,11 @@ import { typeActions, typeSelectors } from '@/reducers/filters/type';
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
 import { getFilteredByTransfers, getSortedByType } from '../helpers';
+import { NoMatching } from '../../../ui';
 
 import { TicketListPropTypes } from './TicketList.propTypes';
 
-const withTicketList = (Component) => {
+const withTicketList = (Ticket) => {
   function TicketList({ tickets, chunkNum, typesFilter, transferFilter }) {
     const [chunkCount, setChunkCount] = useState(chunkNum);
 
@@ -29,9 +30,9 @@ const withTicketList = (Component) => {
         {sortedTickets.length ? (
           sortedTickets
             .slice(0, chunkCount)
-            .map((item) => <Component key={item.id} ticket={item} />)
+            .map((item) => <Ticket key={item.id} ticket={item} />)
         ) : (
-          <Empty description="Рейсов, подходящих под заданные фильтры, не найдено" />
+          <NoMatching />
         )}
         {chunkCount < sortedTickets.length && (
           <ShowMore
@@ -45,7 +46,7 @@ const withTicketList = (Component) => {
   }
 
   TicketList.defaultProps = {
-    chunkNum: 100,
+    chunkNum: 5,
   };
 
   TicketList.propTypes = TicketListPropTypes;
