@@ -1,13 +1,13 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, FloatButton } from 'antd';
-import { ProgressBar } from 'react-bootstrap';
 import { bindActionCreators as bindActions } from 'redux';
 
 import { searchSelectors, searchActions } from '@/reducers/searchId';
 import { ticketSelectors, ticketActions } from '@/reducers/tickets';
 
-import { Loader, Logo } from '../../components/ui';
+import { Loader } from '../../components/ui';
 import { TicketCard, withTicketList } from '../../components/modules/ticket';
 import { TransferFilter, TypeFilter } from '../../components/modules/filters';
 
@@ -21,9 +21,6 @@ function TicketsPage({ chunkCounter, searchIdSet, ticketsLoaded }) {
     };
     searchIdSet(callback);
   }, []);
-
-  // TODO Реализовать лоадер загрузки
-  // TODO Заменить useSelector/Dispatch на connect
 
   const TicketList = withTicketList(TicketCard);
 
@@ -45,6 +42,16 @@ function TicketsPage({ chunkCounter, searchIdSet, ticketsLoaded }) {
     <Loader />
   );
 }
+
+TicketsPage.propTypes = {
+  chunkCounter: PropTypes.number,
+  searchIdSet: PropTypes.func.isRequired,
+  ticketsLoaded: PropTypes.func.isRequired,
+};
+
+TicketsPage.defaultProps = {
+  chunkCounter: 0,
+};
 
 const mapState = (state) => ({
   searchId: searchSelectors.getSearchId(state),

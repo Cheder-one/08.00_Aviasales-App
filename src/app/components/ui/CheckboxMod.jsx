@@ -16,9 +16,9 @@ const CheckboxStyled = styled(Checkbox)`
     }
   }
 
-  :where(
-      .css-dev-only-do-not-override-ujrly5
-    ).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  :where(.css-dev-only-do-not-override-ujrly5).ant-checkbox-wrapper:not(
+      .ant-checkbox-wrapper-disabled
+    ):hover
     .ant-checkbox-checked:not(.ant-checkbox-disabled)
     .ant-checkbox-inner {
     background-color: #fff;

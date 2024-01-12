@@ -1,19 +1,13 @@
 import { Radio } from 'antd';
-import { bindActionCreators as binActions } from 'redux';
-import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators as bindActions } from 'redux';
 
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
 
 import _ from './TypeFilter.module.scss';
 
-const { getType } = typeSelectors;
-
-function TypeFilter() {
-  const type = useSelector(getType);
-  const dispatch = useDispatch();
-
-  const { typeUpdated } = binActions(typeActions, dispatch);
-
+function TypeFilter({ type, typeUpdated }) {
   const handleTypeChange = ({ target }) => {
     const { value } = target;
     typeUpdated(value);
@@ -39,4 +33,20 @@ function TypeFilter() {
   );
 }
 
-export default TypeFilter;
+TypeFilter.propTypes = {
+  type: PropTypes.string.isRequired,
+  typeUpdated: PropTypes.func.isRequired,
+};
+
+const mapState = (state) => ({
+  type: typeSelectors.getType(state),
+});
+
+const mapDispatch = (dispatch) => {
+  const type = bindActions(typeActions, dispatch);
+
+  return { ...type };
+};
+
+const ConnectedTypeFilter = connect(mapState, mapDispatch)(TypeFilter);
+export default ConnectedTypeFilter;

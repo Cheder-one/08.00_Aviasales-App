@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function CarrierLogo({ carrier, onLoad }) {
   return (
     <img
@@ -7,5 +9,10 @@ function CarrierLogo({ carrier, onLoad }) {
     />
   );
 }
+
+CarrierLogo.propTypes = {
+  carrier: PropTypes.string.isRequired,
+  onLoad: PropTypes.func.isRequired,
+};
 
 export default CarrierLogo;

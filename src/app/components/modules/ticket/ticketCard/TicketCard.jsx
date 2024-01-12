@@ -16,7 +16,7 @@ function TicketCard({ ticket }) {
   const handleImageLoaded = () => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 400);
+    }, 200);
   };
 
   return (

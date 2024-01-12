@@ -1,4 +1,5 @@
 import { Flex, Spin } from 'antd';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 function Loader({ css }) {
@@ -13,5 +14,12 @@ function Loader({ css }) {
     </StyledLoader>
   );
 }
+
+Loader.propTypes = {
+  css: PropTypes.string,
+};
+Loader.defaultProps = {
+  css: '',
+};
 
 export default Loader;

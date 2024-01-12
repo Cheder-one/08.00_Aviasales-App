@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators as bindActions } from 'redux';
-import { Empty } from 'antd';
 
 import { transferSelectors } from '@/reducers/filters/transfers';
 import { ticketActions, ticketSelectors } from '@/reducers/tickets';
 import { typeActions, typeSelectors } from '@/reducers/filters/type';
 
+import { NoMatching } from '../../../ui';
 import ShowMore from '../../showMore/ShowMore';
 import _ from '../ticketCard/TicketCard.module.scss';
 import { getFilteredByTransfers, getSortedByType } from '../helpers';
-import { NoMatching } from '../../../ui';
 
 import { TicketListPropTypes } from './TicketList.propTypes';
 

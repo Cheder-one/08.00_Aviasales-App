@@ -53,14 +53,17 @@ const ticketsLoaded = () => async (dispatch, getState) => {
   try {
     const searchId = getState().search.entities;
     let data = { stop: false };
-    const i = 1;
+    // const i = 1;
     while (!data.stop) {
       try {
         data = await ticketsService.fetch(searchId);
         dispatch(received(data));
       } catch (error) {
         if (error?.response?.status === 500) {
-          console.error(error.message);
+          console.warn(
+            'Ошибка сервера, продолжаем подключение...',
+            error.message
+          );
         }
       }
     }
