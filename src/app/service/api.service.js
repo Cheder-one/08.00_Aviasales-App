@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://aviasales-test-api.kata.academy';
+
 const apiService = axios.create({
-  baseURL: 'https://aviasales-test-api.kata.academy',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
